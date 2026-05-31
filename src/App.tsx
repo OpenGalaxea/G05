@@ -19,20 +19,21 @@ function TOC() {
     { id: "introduction", label: "1. Introduction" },
     { id: "autoregressive-pretraining", label: "2. VLM-as-Encoder → VLM-as-Actor" },
     { id: "introducing-g05", label: "3. G0.5 Model Design" },
-    { id: "action-codec", label: "3.1. Cross-Embodiment Action Codec", isSub: true },
+    { id: "action-codec", label: "3.1. Structured Tokenization of Heterogeneous Action Data", isSub: true },
     { id: "native-cot", label: "3.2. Native Chain-of-Thought", isSub: true },
     { id: "visual-memory", label: "3.3. Visual Memory", isSub: true },
     { id: "pretraining", label: "4. Pre-training" },
     { id: "experiments", label: "5. Experiments" },
-    { id: "real-world", label: "5.1. Real-World Fine-Tuning", isSub: true },
-    { id: "droid-zeroshot", label: "5.2. DROID Zero-shot", isSub: true },
+    { id: "droid-zeroshot", label: "5.1. DROID Zero-shot", isSub: true },
+    { id: "simulation", label: "5.2. Simulation Benchmarks", isSub: true },
     { id: "behavior", label: "5.3. BEHAVIOR-1K Challenge", isSub: true },
-    { id: "simulation", label: "5.4. Simulation Benchmarks", isSub: true },
+    { id: "real-world", label: "5.4. Real-World Fine-Tuning", isSub: true },
     { id: "pp-bench", label: "5.5. Pick-and-Place Benchmark", isSub: true },
     { id: "cot-probe", label: "5.6. CoT & Action Head", isSub: true },
     { id: "capabilities", label: "6. Emergent Capabilities" },
     { id: "zero-shot", label: "6.1. Zero-shot Following", isSub: true },
     { id: "prompt-control", label: "6.2. Prompt-driven Control", isSub: true },
+    { id: "agentic-planning", label: "6.3. Reasoning & Replanning", isSub: true },
     { id: "out-of-box", label: "7. Out-of-box Application" },
     { id: "pick-place", label: "Pick up Anything & Place Anywhere", isSub: true },
     { id: "videos", label: "8. More Videos" }
@@ -131,7 +132,7 @@ export default function App() {
               <div id="introduction" className="flex flex-col gap-10 scroll-mt-32">
                 <div className="flex flex-col gap-1">
                   <span className="text-base font-medium text-neutral-200">Galaxea AI Research</span>
-                  <span className="text-[15px] text-neutral-500">May 28, 2026</span>
+                  <span className="text-[15px] text-neutral-500">May 31, 2026</span>
                 </div>
                 
                 <Hero />

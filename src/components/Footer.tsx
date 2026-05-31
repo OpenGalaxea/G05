@@ -8,7 +8,7 @@ export function Footer() {
           <div className="flex items-center gap-2 mb-6">
             <img src="images/Galaxea.png" alt="Galaxea Logo" className="h-6" referrerPolicy="no-referrer" />
             <span className="font-display font-bold text-xl tracking-wide text-white uppercase ml-1">
-              Dynamics
+              AI
             </span>
           </div>
           <p className="text-neutral-400 text-sm max-w-sm leading-relaxed mb-6">
@@ -43,7 +43,7 @@ export function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-        <p>&copy; 2026 Galaxea Dynamics. All rights reserved.</p>
+        <p>&copy; 2026 Galaxea AI. All rights reserved.</p>
         <div className="flex gap-4">
           <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
           <a href="#" className="hover:text-white transition-colors">Terms of Service</a>

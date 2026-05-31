@@ -190,7 +190,7 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
       <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">4. Pre-training</h2>
       <div className="flex flex-col gap-6 text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">
         <p>
-          G0.5 is pre-trained in a single stage on a heterogeneous mixture of robot demonstrations and web-scale vision–language data. The robot portion covers <strong className="text-white font-medium">18 embodiments</strong> across real and simulated ontologies, all cast into a single 27-dimensional unified action space — partitioned as <code className="bg-surface/60 px-2 py-1 rounded-md text-brand-orange-light font-mono text-[15px] border border-white/10 mx-0.5">left_control(9) | left_gripper(1) | right_control(9) | right_gripper(1) | lower_body(7)</code> — so robots of differing morphology share one output head without per-robot adapters.
+          G0.5 is pre-trained in a single stage on a heterogeneous mixture of robot demonstrations and web-scale vision–language data. The robot portion covers <strong className="text-white font-medium">14 embodiments</strong> across real and simulated ontologies, all cast into a single 27-dimensional unified action space — partitioned as <code className="bg-surface/60 px-2 py-1 rounded-md text-brand-orange-light font-mono text-[15px] border border-white/10 mx-0.5">left_control(9) | left_gripper(1) | right_control(9) | right_gripper(1) | lower_body(7)</code> — so robots of differing morphology share one output head without per-robot adapters.
         </p>
         <p>
           An automated labeling pipeline turns raw episodes into multi-granularity annotations: rule-based segmentation plus multimodal APIs (Gemini 3, Doubao Seed 2.0 Pro) produce action hints and atomic/episode instructions, foundation models with SAM3 tracking generate per-frame bounding boxes, and forward kinematics projects bimanual end-effector traces onto the image plane. To retain general language ability we co-train with roughly <strong className="text-white font-medium">100M vision–language samples</strong> (generic + embodied VQA) at a 1:4 VQA-to-action ratio, all under the same next-token objective. Each robot sample is assigned one of eight CoT formats by weighted sampling, with subtask-text weighted most heavily.
@@ -205,7 +205,7 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
           <img src="images/embodiments.png" alt="Robot platforms represented in pre-training" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
-          The 18 real and simulated robot platforms that make up the pre-training mixture, from single arms to bimanual mobile manipulators and full-size humanoids.
+          The 14 real and simulated robot platforms that make up the pre-training mixture, from single arms to bimanual mobile manipulators and full-size humanoids.
         </figcaption>
       </figure>
 

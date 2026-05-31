@@ -26,7 +26,7 @@ export function InteractiveDiagram() {
         </figcaption>
       </figure>
 
-      <h3 id="action-codec" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">3.1 Cross-Embodiment Action Codec</h3>
+      <h3 id="action-codec" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">3.1 Structured Tokenization of Heterogeneous Action Data</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
         A pure-AR policy must discretize continuous actions, and most prior schemes flatten the whole action space into one vector before quantization — entangling action semantics and making token count scale with total DoFs even though only a few joints move at any step. Adopting the action-grouping strategy of FASTer together with the ActionCodec training recipe, G0.5 instead decomposes each robot into independent <strong className="text-white font-medium">motion parts</strong> (left arm, right arm, lower body), pads each part to a shared dimensionality, and trains a <strong className="text-white font-medium">residual vector-quantization (RVQ)</strong> model over the grouped actions. A temporal contrastive objective improves token consistency across adjacent motions, so semantically similar actions map to nearby codes rather than jumping erratically. Structural special tokens such as <code className="bg-surface/60 px-2 py-1 rounded-md text-brand-orange-light font-mono text-base border border-white/10 mx-1">&lt;left_control_n&gt;</code> let the model emit only the parts that are actively moving — inactive parts stay still without spending any tokens.
       </p>

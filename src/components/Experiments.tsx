@@ -7,7 +7,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGri
 // ---------------------------------------------------------------------------
 const realSuccess = [
   { name: 'GR00T N1.7', value: 24.4, color: '#3f3f3f' },
-  { name: 'π0.5', value: 53.0, color: '#5f5f5f' },
+  { name: 'π0.5', value: 53.3, color: '#5f5f5f' },
   { name: 'G0.5 (Ours)', value: 76.7, color: 'url(#expOurs)' },
 ];
 const realProcess = [
@@ -24,7 +24,7 @@ const droidSuccess = [
 const behaviorScore = [
   { name: 'Comet (2nd)', value: 0.183, color: '#3f3f3f' },
   { name: 'RLC (1st · 4 ckpt)', value: 0.2605, color: '#4a4a4a' },
-  { name: 'π0.5 (4 ep)', value: 0.2612, color: '#5f5f5f' },
+  { name: 'π0.5 (4 ep)', value: 0.2626, color: '#5f5f5f' },
   { name: 'G0.5 (1 ep)', value: 0.2904, color: 'url(#expOurs)' },
 ];
 const realTasks = [
@@ -77,21 +77,20 @@ const contextRows = [
   ['Task Success Rate', '75.0%', '76.6%', '84.4%'],
 ];
 // Zero-shot probe of action head (AR vs FM) and CoT (Table 6).
+// PP Bench rows are % over 64 rollouts; long-horizon tasks are raw count out of n=5.
 const probeRows = [
   ['PP Bench', 'AR, no CoT', '59.4', '–', '65.6'],
-  ['PP Bench', 'AR, CoT', '62.5', '–', '68.8'],
-  ['PP Bench', 'FM, no CoT', '57.8', '–', '64.1'],
-  ['PP Bench', 'FM, CoT', '59.4', '–', '65.6'],
-  ['Air Fryer', 'AR, no CoT', '20.0', '2.4', '35.0'],
-  ['Air Fryer', 'AR, CoT', '50.0', '3.8', '70.0'],
-  ['Air Fryer', 'AR, CoT + rewrite', '65.0', '4.2', '85.0'],
-  ['Air Fryer', 'FM, no CoT', '15.0', '2.1', '30.0'],
-  ['Air Fryer', 'FM, CoT', '25.0', '2.7', '50.0'],
-  ['Cook Bacon', 'AR, no CoT', '10.0', '1.5', '25.0'],
-  ['Cook Bacon', 'AR, CoT', '45.0', '3.5', '65.0'],
-  ['Cook Bacon', 'AR, CoT + rewrite', '55.0', '3.9', '80.0'],
-  ['Cook Bacon', 'FM, no CoT', '5.0', '1.2', '22.0'],
-  ['Cook Bacon', 'FM, CoT', '15.0', '2.0', '45.0'],
+  ['PP Bench', 'AR, CoT', '60.9', '–', '67.2'],
+  ['PP Bench', 'FM, no CoT', '54.7', '–', '59.4'],
+  ['PP Bench', 'FM, CoT', '56.3', '–', '60.9'],
+  ['Air Fryer', 'AR, no CoT', '1/5', '2.4', '36'],
+  ['Air Fryer', 'AR, CoT', '3/5', '3.8', '72'],
+  ['Air Fryer', 'FM, no CoT', '1/5', '2.1', '32'],
+  ['Air Fryer', 'FM, CoT', '1/5', '2.7', '48'],
+  ['Cook Bacon', 'AR, no CoT', '0/5', '1.5', '24'],
+  ['Cook Bacon', 'AR, CoT', '2/5', '3.4', '64'],
+  ['Cook Bacon', 'FM, no CoT', '0/5', '1.2', '20'],
+  ['Cook Bacon', 'FM, CoT', '1/5', '2.0', '44'],
 ];
 
 // ---------------------------------------------------------------------------
@@ -243,40 +242,11 @@ export function Experiments() {
     <section className="w-full">
       <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">5. Experiments</h2>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">
-        We evaluate G0.5 across seven settings that probe distinct facets of a general-purpose VLA: real-world fine-tuning on two bimanual platforms, zero-shot deployment on an unseen robot, a long-horizon household challenge, three standardized simulation suites, a language-following benchmark, and a controlled probe of the autoregressive interface itself.
+        We evaluate G0.5 across seven settings that probe distinct facets of a general-purpose VLA: zero-shot deployment on an unseen robot, three standardized simulation suites, a long-horizon household challenge, real-world fine-tuning on two bimanual platforms, a language-following benchmark, and a controlled probe of the autoregressive interface itself.
       </p>
 
-      {/* 5.1 Real-world fine-tuning ------------------------------------------------ */}
-      <h3 id="real-world" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">5.1. Real-World Fine-Tuning</h3>
-      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
-        We fine-tune G0.5 on two embodiments with different kinematic structures — <strong className="text-white font-medium">R1 Lite</strong> (two 6-DoF arms, 3-DoF torso, omnidirectional base) and <strong className="text-white font-medium">R1 Pro</strong> (two 7-DoF arms, 4-DoF torso, omnidirectional base) — and compare against <span className="font-mono text-neutral-200">π0.5</span> and <span className="font-mono text-neutral-200">GR00T N1.7</span>. Every model is fine-tuned on the same data with an aligned compute budget (16× H20 GPUs, matched wall-clock) and evaluated under an identical observation space, action space, and control stack.
-      </p>
-      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-10">
-        Four tasks instantiate <strong className="text-white font-medium">six task–embodiment settings</strong>, spanning deformable-object manipulation, contact-rich assembly, sequential object interaction, and whole-body bimanual coordination. Each setting is run over 15 real-world episodes, reporting both task success rate and a stage-wise process score, with models evaluated in interleaved order to control for environmental drift.
-      </p>
-
-      <TaskGallery items={realTasks} cols="md:grid-cols-3" />
-      <p className="mt-4 mb-12 text-sm text-neutral-500 font-light leading-relaxed text-center">
-        The six real-world fine-tuning settings. Towel folding and carton folding are shared across both embodiments, enabling direct cross-embodiment comparison under the same task objective.
-      </p>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
-        <MetricBar title="Average Success Rate" data={realSuccess} unit="%" domain={[0, 100]} />
-        <MetricBar title="Average Process Score" data={realProcess} domain={[0, 160]} />
-      </div>
-
-      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
-        Averaged across all six settings, G0.5 reaches a <strong className="text-white font-medium">76.7% success rate</strong> and a <strong className="text-white font-medium">129.2 process score</strong>, versus 53.0% / 105.2 for π0.5 and 24.4% / 68.9 for GR00T N1.7. G0.5 attains the best success rate in five of the six settings; the sole exception is R1 Pro box stacking, where π0.5 edges it on final success (93.3% vs 80.0%) while remaining close on process score (148.0 vs 142.5).
-      </p>
-      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-10">
-        Performance is also balanced across embodiments — 75.6% / 124.5 on the 7-DoF R1 Pro and 77.8% / 133.8 on the 6-DoF R1 Lite — indicating that a single recipe adapts effectively to markedly different morphologies. On the four shared task–embodiment settings, G0.5 averages 75.0% success versus 43.3% (π0.5) and 13.3% (GR00T N1.7).
-      </p>
-
-      <FigureCard src="images/exp/gbench_success_rate.png" caption="Per-setting task success rate across the six real-world fine-tuning settings on R1 Pro and R1 Lite." />
-      <FigureCard src="images/exp/gbench_process_score.png" caption="Per-setting process score across the six settings, capturing partial task progress under stage-wise criteria." />
-
-      {/* 5.2 DROID zero-shot ------------------------------------------------------- */}
-      <h3 id="droid-zeroshot" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.2. DROID Zero-shot Evaluation</h3>
+      {/* 5.1 DROID zero-shot ------------------------------------------------------- */}
+      <h3 id="droid-zeroshot" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">5.1. DROID Zero-shot Evaluation</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
         To test out-of-the-box generalization, we deploy G0.5 on the <strong className="text-white font-medium">DROID</strong> platform — a Franka Research 3 arm with a Robotiq 2F-85 gripper — without any fine-tuning on this robot, relying solely on natural-language instructions at inference. We evaluate 10 tabletop tasks across 8 scene setups, spanning object placement, colour-conditioned selection, small-aperture insertion, deformable manipulation, spatial displacement, and multi-step sequencing, and compare against <span className="font-mono text-neutral-200">π0.5-DROID</span> and <span className="font-mono text-neutral-200">MolmoAct2-DROID</span>.
       </p>
@@ -299,28 +269,8 @@ export function Experiments() {
 
       <FigureCard src="images/exp/droid_results.png" caption="Per-task success rate (%) on the DROID zero-shot benchmark for π0.5-DROID, MolmoAct2-DROID, and G0.5 across 10 manipulation tasks." />
 
-      {/* 5.3 Long-horizon — BEHAVIOR-1K ------------------------------------------- */}
-      <h3 id="behavior" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.3. Long-Horizon · BEHAVIOR-1K Challenge</h3>
-      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
-        The 2025 BEHAVIOR Challenge selects <strong className="text-white font-medium">50 full-length household tasks</strong> on an R1 Pro in the photorealistic OmniGibson simulator — rearrangement, cooking, cleaning, installation — where each episode averages 6.6 minutes and demands coordinated navigation and bimanual manipulation. The ranking metric is the Task Success Score, which awards partial credit for completed goal predicates. We co-train a <strong className="text-white font-medium">single policy</strong> on all 10,000 demonstrations and evaluate one checkpoint.
-      </p>
-
-      <div className="my-12">
-        <MetricBar title="BEHAVIOR-1K · Task Success Score (Primary Metric)" data={behaviorScore} domain={[0, 0.32]} fmt={(v) => v.toFixed(2)} />
-      </div>
-
-      <Finding title="Training efficiency">
-        A single G0.5 checkpoint trained for just <strong className="text-white">one</strong> post-training epoch (score 0.290) surpasses π0.5 trained for four epochs (0.261) by +11.2% — the same downstream data yields more, faster, from a stronger backbone.
-      </Finding>
-      <Finding title="Single-policy generalization">
-        Across all 50 tasks G0.5 beats the first-place challenge solution (RLC, 0.261) by +11.5% using one checkpoint, where the winner relied on a set of four. G0.5 leads on 23 of 50 tasks; π0.5 leads on 14.
-      </Finding>
-      <Finding title="What the pre-training shaped">
-        Structured action decomposition decouples navigation from manipulation, and visual-memory pre-training boosts navigation-heavy long-horizon tasks. The remaining gap is distributional — appliance/cabinet-interaction skills (e.g. microwave popcorn) are underrepresented in pre-training, pointing to a clear data path forward.
-      </Finding>
-
-      {/* 5.4 Simulation benchmarks ------------------------------------------------ */}
-      <h3 id="simulation" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.4. Simulation Benchmarks</h3>
+      {/* 5.2 Simulation benchmarks ------------------------------------------------ */}
+      <h3 id="simulation" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.2. Simulation Benchmarks</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-10">
         On three standardized suites, G0.5 matches or surpasses the strongest published baselines, reaching state-of-the-art overall accuracy on LIBERO — with the best score on its challenging Long suite.
       </p>
@@ -340,6 +290,55 @@ export function Experiments() {
       <h4 className="text-lg font-medium text-white/90 mt-12 mb-2">SimplerEnv-Bridge <span className="text-neutral-500 font-light text-sm">— success rate (%) by task</span></h4>
       <DataTable headers={['Method', 'Spoon', 'Carrot', 'Stack', 'Eggplant', 'Avg']} rows={bridgeRows} highlightCol={4} />
 
+      {/* 5.3 Long-horizon — BEHAVIOR-1K ------------------------------------------- */}
+      <h3 id="behavior" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.3. Long-Horizon · BEHAVIOR-1K Challenge</h3>
+      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
+        The 2025 BEHAVIOR Challenge selects <strong className="text-white font-medium">50 full-length household tasks</strong> on an R1 Pro in the photorealistic OmniGibson simulator — rearrangement, cooking, cleaning, installation — where each episode averages 6.6 minutes and demands coordinated navigation and bimanual manipulation. The ranking metric is the Task Success Score, which awards partial credit for completed goal predicates. We co-train a <strong className="text-white font-medium">single policy</strong> on all 10,000 demonstrations and evaluate one checkpoint.
+      </p>
+
+      <div className="my-12">
+        <MetricBar title="BEHAVIOR-1K · Task Success Score (Primary Metric)" data={behaviorScore} domain={[0, 0.32]} fmt={(v) => v.toFixed(2)} />
+      </div>
+
+      <Finding title="Training efficiency">
+        A single G0.5 checkpoint trained for just <strong className="text-white">one</strong> post-training epoch (score 0.2904) surpasses π0.5 trained for four epochs (0.2626) by +10.6% — the same downstream data yields more, faster, from a stronger backbone.
+      </Finding>
+      <Finding title="Single-policy generalization">
+        Across all 50 tasks G0.5 beats the first-place challenge solution (RLC, 0.2605) by +11.5% using one checkpoint, where the winner relied on a set of four. G0.5 leads on 26 of 50 tasks (52%); π0.5 leads on 18 (36%), with 6 comparable.
+      </Finding>
+      <Finding title="What the pre-training shaped">
+        Structured action decomposition decouples navigation from manipulation, and visual-memory pre-training boosts navigation-heavy long-horizon tasks. The remaining gap is distributional — appliance/cabinet-interaction skills (e.g. microwave popcorn) are underrepresented in pre-training, pointing to a clear data path forward.
+      </Finding>
+
+      {/* 5.4 Real-world fine-tuning ------------------------------------------------ */}
+      <h3 id="real-world" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.4. Real-World Fine-Tuning</h3>
+      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
+        We fine-tune G0.5 on two embodiments with different kinematic structures — <strong className="text-white font-medium">R1 Lite</strong> (two 6-DoF arms, 3-DoF torso, omnidirectional base) and <strong className="text-white font-medium">R1 Pro</strong> (two 7-DoF arms, 4-DoF torso, omnidirectional base) — and compare against <span className="font-mono text-neutral-200">π0.5</span> and <span className="font-mono text-neutral-200">GR00T N1.7</span>. Every model is fine-tuned on the same data with an aligned compute budget (16× H20 GPUs, matched wall-clock) and evaluated under an identical observation space, action space, and control stack.
+      </p>
+      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-10">
+        Four tasks instantiate <strong className="text-white font-medium">six task–embodiment settings</strong>, spanning deformable-object manipulation, contact-rich assembly, sequential object interaction, and whole-body bimanual coordination. Each setting is run over 15 real-world episodes, reporting both task success rate and a stage-wise process score, with models evaluated in interleaved order to control for environmental drift.
+      </p>
+
+      <TaskGallery items={realTasks} cols="md:grid-cols-3" />
+      <p className="mt-4 mb-12 text-sm text-neutral-500 font-light leading-relaxed text-center">
+        The six real-world fine-tuning settings. Towel folding and carton folding are shared across both embodiments, enabling direct cross-embodiment comparison under the same task objective.
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
+        <MetricBar title="Average Success Rate" data={realSuccess} unit="%" domain={[0, 100]} />
+        <MetricBar title="Average Process Score" data={realProcess} domain={[0, 160]} />
+      </div>
+
+      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
+        Averaged across all six settings, G0.5 reaches a <strong className="text-white font-medium">76.7% success rate</strong> and a <strong className="text-white font-medium">129.2 process score</strong>, versus 53.3% / 105.2 for π0.5 and 24.4% / 68.9 for GR00T N1.7. G0.5 attains the best success rate in five of the six settings; the sole exception is R1 Pro box stacking, where π0.5 edges it on final success (93.3% vs 80.0%) while remaining close on process score (148.0 vs 142.5).
+      </p>
+      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-10">
+        Performance is also balanced across embodiments — 75.6% / 124.5 on the 7-DoF R1 Pro and 77.8% / 133.8 on the 6-DoF R1 Lite — indicating that a single recipe adapts effectively to markedly different morphologies. On the four shared task–embodiment settings, G0.5 averages 75.0% success versus 43.3% (π0.5) and 13.3% (GR00T N1.7).
+      </p>
+
+      <FigureCard src="images/exp/gbench_success_rate.png" caption="Per-setting task success rate across the six real-world fine-tuning settings on R1 Pro and R1 Lite." />
+      <FigureCard src="images/exp/gbench_process_score.png" caption="Per-setting process score across the six settings, capturing partial task progress under stage-wise criteria." />
+
       {/* 5.5 Pick-and-Place Benchmark --------------------------------------------- */}
       <h3 id="pp-bench" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.5. Pick-and-Place Benchmark</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
@@ -358,7 +357,7 @@ export function Experiments() {
       <FigureCard src="images/ppbench.png" caption="PP Bench results. Language-following rate (left) and task success rate (right) for G0.5 and π0.5 across zero-shot, 1H, 10H, and 50H post-training scales." />
 
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
-        Even <strong className="text-white font-medium">zero-shot</strong>, G0.5 follows instructions 65.6% of the time and completes 59.4% of tasks. Post-training scales both metrics (84.4% / 75.0% at 50H). Under the matched 50H setting, G0.5 still outperforms π0.5 by 12.4 points in language following and 22.0 points in task success — we attribute this to web-data co-training (open-vocabulary grounding) and R1 Lite pre-training (action priors).
+        Even <strong className="text-white font-medium">zero-shot</strong>, G0.5 follows instructions 65.6% of the time and completes 59.4% of tasks. Post-training scales both metrics (84.4% / 75.0% at 50H). Under the matched 50H setting, G0.5 still outperforms π0.5 by 15.6 points in language following and 9.4 points in task success — we attribute this to web-data co-training (open-vocabulary grounding) and R1 Lite pre-training (action priors).
       </p>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
         Many residual errors are visually ambiguous long-tail objects. Appending cropped <strong className="text-white font-medium">visual context</strong> of the target — encoded by the same vision encoder through G0.5's multi-image interface — lifts language following to 98.4%, while textual box coordinates alone do not help.
@@ -376,10 +375,10 @@ export function Experiments() {
       <DataTable headers={['Task', 'Mode', 'Success ↑', 'Stage ↑', 'LF ↑']} rows={probeRows} highlightLast={false} />
 
       <Finding title="Finding 1 — CoT gain scales with task horizon">
-        Enabling CoT lifts AR success by only +3.1 points on single-stage PP Bench, but by +30.0 on Air Fryer and +35.0 on Bacon. On top of that, rewriting each minimal sub-goal prompt into an enriched variant (e.g. "gently open the door fully") adds another +15.0 / +10.0 — steering the policy onto out-of-distribution tasks purely through prompts, no retraining.
+        Enabling CoT barely moves AR success on single-stage PP Bench (+1.5 points; each cell shifts by at most one rollout), but on the five-stage long-horizon tasks the picture changes: AR goes from 1/5 to 3/5 on Air Fryer and from 0/5 to 2/5 on Bacon, with the per-stage process score and language-following rate rising in step. CoT helps where the task offers structure to decompose — and Air Fryer and Bacon are household scenes that do not appear in pre-training, so the policy reaches them by decomposition without any retraining.
       </Finding>
-      <Finding title="Finding 2 — AR follows CoT more faithfully than the FM expert">
-        With the same CoT stream and the same post-CoT hidden state, AR captures far more reasoning signal than FM (Air Fryer: +30.0 vs +10.0; Bacon: +35.0 vs +10.0). Because both decoders share the trunk, the gap reflects how the action is decoded: AR action tokens stay in the reasoning stream and attend to the CoT trace directly, whereas the flow-matching expert collapses that trace into a compressed condition first.
+      <Finding title="Finding 2 — AR follows CoT more closely than the FM expert">
+        Under matched CoT, the AR head benefits more than the FM head: on Air Fryer, CoT lifts AR from 1/5 to 3/5 while FM stays at 1/5; Bacon shows the same ordering. The language-following rate echoes this gap (Air Fryer 72 vs 48; Bacon 64 vs 44). We <em>hypothesise</em> this reflects the decoding interface rather than the reasoning content: the AR action tokens are emitted in the same stream as the CoT and can attend to it directly, whereas the FM head conditions on a pooled summary of the hidden state.
       </Finding>
     </section>
   );
