@@ -187,15 +187,27 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
 
   return (
     <section ref={ref} className="w-full">
-      <h3 id="distribution-data" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">3.4 Pre-training &amp; Embodiment Distributions</h3>
-      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">
-        G0.5 is pre-trained on a large, diverse mixture of robot data — roughly 15,400 hours spanning many physical embodiments and source datasets. The breakdown below shows how that corpus is composed by robot embodiment (left) and by source dataset (right). <span className="text-brand-orange font-medium">Click or hover</span> a slice or legend row; the detail appears in the page margins on either side.
-      </p>
+      <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">4. Pre-training</h2>
+      <div className="flex flex-col gap-6 text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">
+        <p>
+          G0.5 is pre-trained in a single stage on a heterogeneous mixture of robot demonstrations and web-scale vision–language data. The robot portion covers <strong className="text-white font-medium">18 embodiments</strong> across real and simulated ontologies, all cast into a single 27-dimensional unified action space — partitioned as <code className="bg-surface/60 px-2 py-1 rounded-md text-brand-orange-light font-mono text-[15px] border border-white/10 mx-0.5">left_control(9) | left_gripper(1) | right_control(9) | right_gripper(1) | lower_body(7)</code> — so robots of differing morphology share one output head without per-robot adapters.
+        </p>
+        <p>
+          An automated labeling pipeline turns raw episodes into multi-granularity annotations: rule-based segmentation plus multimodal APIs (Gemini 3, Doubao Seed 2.0 Pro) produce action hints and atomic/episode instructions, foundation models with SAM3 tracking generate per-frame bounding boxes, and forward kinematics projects bimanual end-effector traces onto the image plane. To retain general language ability we co-train with roughly <strong className="text-white font-medium">100M vision–language samples</strong> (generic + embodied VQA) at a 1:4 VQA-to-action ratio, all under the same next-token objective. Each robot sample is assigned one of eight CoT formats by weighted sampling, with subtask-text weighted most heavily.
+        </p>
+        <p>
+          The breakdown below shows how the corpus is composed by robot embodiment (left) and by source dataset (right). <span className="text-brand-orange font-medium">Click or hover</span> a slice or legend row; the detail appears in the page margins on either side.
+        </p>
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <div id="distribution-data" className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 scroll-mt-32">
         <DonutCard title="Embodiments Distribution" subtitle="Pre-training hours by physical robot embodiment." accent="#FF8A1E" items={emb.items} active={ea} setActive={setEa} />
         <DonutCard title="Datasets Distribution" subtitle="Pre-training hours by source dataset." accent="#4B6B88" items={ds.items} active={da} setActive={setDa} />
       </div>
+
+      <p className="text-sm text-neutral-500 font-light leading-relaxed mb-12 border-l-2 border-white/10 pl-4">
+        <span className="font-mono text-neutral-400">Recipe.</span> Trained with AdamW under a single cross-entropy objective (plus the auxiliary flow-matching loss) for ~120K steps. Observations are 6 frames sampled at 1 s over a 5 s window; 30% of memory frames are dropped as regularization for the visual-memory module.
+      </p>
 
       {leftSlot && createPortal(<DetailPanel item={emb.items[ea]} rank={ea + 1} count={emb.items.length} label="Embodiment" />, leftSlot)}
       {rightSlot && createPortal(<DetailPanel item={ds.items[da]} rank={da + 1} count={ds.items.length} label="Source dataset" />, rightSlot)}
