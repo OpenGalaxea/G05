@@ -2,15 +2,14 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, Play } from 'lucide-react';
 
-// Zero-shot instruction → demo clip. Drop the MP4s into public/videos/zeroshot/.
-// Posters fall back to the task photos so the picker works before clips are added.
+// Zero-shot instruction → demo clip. Clips live in public/videos/oob/.
 const ZEROSHOT = [
-  { instruction: 'Fold the towel', src: '/videos/zeroshot/fold_towel.mp4', poster: '/images/exp/r1lite_fold_towel.jpg' },
-  { instruction: 'Fold the carton into a box', src: '/videos/zeroshot/fold_carton.mp4', poster: '/images/exp/r1lite_fold_carton.jpg' },
-  { instruction: 'Pack the stationery into the pencil case', src: '/videos/zeroshot/pencil_case.mp4', poster: '/images/exp/r1lite_stationery_incase.jpg' },
-  { instruction: 'Transfer and stack the boxes', src: '/videos/zeroshot/stack_box.mp4', poster: '/images/exp/r1pro_stack_box.jpg' },
-  { instruction: 'Move the block into the cup', src: '/videos/zeroshot/block_cup.mp4', poster: '/images/exp/droid_block_cup.png' },
-  { instruction: 'Put the pen into the open drawer', src: '/videos/zeroshot/pen_drawer.mp4', poster: '/images/exp/droid_pen_drawer.png' },
+  { instruction: 'Toast the bread in the toaster', src: '/videos/oob/toast_bread.mp4', poster: '/videos/oob/toast_bread.jpg' },
+  { instruction: 'Cook with the air fryer', src: '/videos/oob/air_fryer.mp4', poster: '/videos/oob/air_fryer.jpg' },
+  { instruction: 'Stir-fry the dish on the stove', src: '/videos/oob/stir_fry.mp4', poster: '/videos/oob/stir_fry.jpg' },
+  { instruction: 'Start the rice cooker', src: '/videos/oob/rice_cooker.mp4', poster: '/videos/oob/rice_cooker.jpg' },
+  { instruction: 'Tidy the clothes and slippers', src: '/videos/oob/tidy_clothes.mp4', poster: '/videos/oob/tidy_clothes.jpg' },
+  { instruction: 'Clean the washbasin', src: '/videos/oob/washbasin.mp4', poster: '/videos/oob/washbasin.jpg' },
 ];
 
 function InstructionPicker() {
@@ -61,7 +60,7 @@ function InstructionPicker() {
       {/* Player */}
       <div className="bg-[#111111] border border-white/5 rounded-[2rem] p-3 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
         <div className="absolute top-6 left-6 z-10 px-4 py-1.5 bg-black/60 backdrop-blur-xl rounded-full text-[13px] font-mono text-white border border-white/20 uppercase tracking-widest shadow-lg">
-          Zero-Shot Evaluation
+          Zero-Shot
         </div>
         <video
           key={cur.src}
@@ -82,26 +81,26 @@ function InstructionPicker() {
 export function Capabilities() {
   return (
     <section className="w-full">
-      <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">Capabilities</h2>
+      <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">6. Emergent Capabilities</h2>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">
-        Evaluating across a broad suite of real-world physical manipulation tasks, G0.5 demonstrates a marked leap in systematic generalization compared to domain-specific specialist algorithms. Furthermore, the pre-training yields a powerful zero-shot instruction following capability out of the box.
+        Because reasoning and action share one set of weights, preserving the autoregressive interface transfers the VLM's in-context learning capacity directly to action generation. The result is a class of behaviors not previously demonstrated in the VLM-as-Encoder family: prompts reshape the next-action distribution itself, not just a compressed condition feeding an external expert.
       </p>
 
-      <h3 id="zero-shot" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">4.1. Zero-shot Instruction Following</h3>
+      <h3 id="zero-shot" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">6.1. Zero-shot Instruction Following</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
-        G0.5 interprets arbitrary natural language instructions to interact with novel objects in zero-shot settings, bypassing the need for object-specific coding. Pick an instruction below to watch the corresponding rollout.
+        G0.5 interprets arbitrary natural-language instructions and interacts with novel objects out of the box, without object-specific engineering. Pick an instruction below to watch the corresponding rollout.
       </p>
 
       <InstructionPicker />
 
-      <h3 id="posttraining-efficiency" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">4.2. Posttraining Efficiency</h3>
+      <h3 id="prompt-control" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">6.2. Prompt-driven Behavior Control</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
-        Compared to training from scratch, fine-tuning the pre-trained G0.5 model requires significantly less data and computational time to achieve mastery in complex multi-stage tasks. Quantitative comparisons against baselines are reported in the Experiments section.
+        We probe three axes of prompt-level control, all emerging without additional training. <strong className="text-white font-medium">Action granularity</strong>: complexity modifiers in the prompt elicit finer-grained motor behavior. <strong className="text-white font-medium">Task horizon</strong>: compositional instructions induce coherent long-horizon execution. <strong className="text-white font-medium">Out-of-distribution generalization</strong>: rewriting a minimal sub-goal into an adverbially and spatially enriched variant (e.g. "open the door" → "gently open the door fully") steers the policy onto unseen scenes — adding up to +15.0 points on the zero-shot Air Fryer task with no fine-tuning.
       </p>
 
-      <h3 id="agentic-planning" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">4.3. Agentic Planning</h3>
+      <h3 id="agentic-planning" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">6.3. Native Reasoning &amp; Replanning</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
-        Equipped with long-horizon reasoning capabilities, G0.5 acts as an autonomous agent that visually grounds complex goals into step-by-step actionable plans across diverse scenes.
+        Enabling the native chain-of-thought lets G0.5 decompose long-horizon goals into sub-steps and ground task-relevant objects before acting — and these contributions accumulate over longer horizons, lifting zero-shot success by +30 to +35 points on five-stage household tasks. Hand-scored CoT correctness stays around 80–90%, and because the reasoning lives in the same stream, the policy can re-plan closed-loop from each new observation.
       </p>
     </section>
   );
