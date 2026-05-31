@@ -1,34 +1,37 @@
 import { motion } from 'motion/react';
-import { Database, Zap, ShieldCheck } from 'lucide-react';
+import { Layers, Brain, Clock } from 'lucide-react';
 
 export function Abstract() {
   return (
     <section>
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         className="bg-[#111111] border border-white/5 shadow-2xl rounded-2xl p-10 md:p-14 relative overflow-hidden"
       >
         <p className="text-xl md:text-2xl text-neutral-200 leading-[1.8] font-light tracking-wide relative z-10">
-          We present <strong className="text-white font-medium">G0.5</strong>, the industry's first fully autoregressive pre-trained Vision-Language-Action (VLA) model. By reimagining the embodied learning paradigm, G0.5 achieves unprecedented training efficiency and global top-tier data utilization. It features native robust zero-shot instruction following capabilities out of the box, and provides highly-capable "Pickup Anything & Place Anywhere" post-training weights ready for immediate deployment in dynamic physical environments.
+          The prevailing recipe for Vision-Language-Action (VLA) models couples a pre-trained VLM with a separately-trained flow-matching action expert, reducing the VLM to a context encoder rather than a decision-maker. We argue instead for focusing on the VLM backbone. We introduce <strong className="text-white font-medium">G0.5</strong>, a pretrained autoregressive VLA in which a single transformer decoder emits reasoning and action tokens within one autoregressive stream, under a single objective. Because reasoning and action share one set of weights, the VLM's capabilities carry over to physical behavior: the model follows instructions closely, and prompts directly steer action granularity, task horizon, and out-of-distribution handling — without further training.
+        </p>
+        <p className="text-lg md:text-xl text-neutral-300 leading-[1.8] font-light tracking-wide relative z-10 mt-6">
+          Pretrained on a large collection of robot datasets together with VQA samples, G0.5 surpasses state-of-the-art models across <strong className="text-white font-medium">seven independent regimes</strong> — including real-world R1-Lite/R1-Pro fine-tuning (<span className="text-brand-orange-light font-medium">76.7%</span> vs. 53.0% for π0.5 and 24.4% for GR00T-N1.7), the BEHAVIOR-1K Challenge (<span className="text-brand-orange-light font-medium">0.290</span> task score, single policy), zero-shot DROID (<span className="text-brand-orange-light font-medium">82.5%</span>), LIBERO (<span className="text-brand-orange-light font-medium">98.9%</span>), RoboTwin 2.0 (<span className="text-brand-orange-light font-medium">93.3%</span>), and SimplerEnv-Bridge (<span className="text-brand-orange-light font-medium">87.3%</span>).
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 mt-12 border-t border-white/5 pt-12">
           <div className="flex flex-col gap-3 relative">
-            <Database className="w-6 h-6 text-brand-orange mb-1" />
-            <h3 className="font-medium text-white text-base">Autoregressive VLA</h3>
-            <p className="text-[15px] text-neutral-400 leading-[1.7] mt-1">Industry-first fully autoregressive pre-training, delivering upgraded training efficiency and unparalleled data utilization.</p>
+            <Layers className="w-6 h-6 text-brand-orange mb-1" />
+            <h3 className="font-medium text-white text-base">Cross-Embodiment Action Codec</h3>
+            <p className="text-[15px] text-neutral-400 leading-[1.7] mt-1">A learned tokenizer maps heterogeneous robot actions — across degrees of freedom and morphologies — into one shared discrete vocabulary.</p>
           </div>
           <div className="flex flex-col gap-3 relative">
-            <Zap className="w-6 h-6 text-brand-orange mb-1" />
-            <h3 className="font-medium text-white text-base">Zero-Shot Following</h3>
-            <p className="text-[15px] text-neutral-400 leading-[1.7] mt-1">Exceptional pre-training performance yielding robust zero-shot capability for complex physical instructions.</p>
+            <Brain className="w-6 h-6 text-brand-orange mb-1" />
+            <h3 className="font-medium text-white text-base">Native Chain-of-Thought</h3>
+            <p className="text-[15px] text-neutral-400 leading-[1.7] mt-1">Task decomposition, object grounding, and action hints are interleaved with action tokens in the same stream, sharing the decoder and objective.</p>
           </div>
           <div className="flex flex-col gap-3 relative">
-            <ShieldCheck className="w-6 h-6 text-brand-orange mb-1" />
-            <h3 className="font-medium text-white text-base">Universal Manipulation</h3>
-            <p className="text-[15px] text-neutral-400 leading-[1.7] mt-1">Out-of-the-box post-training weights specialized in "Pickup Anything & Place Anywhere" across diverse settings.</p>
+            <Clock className="w-6 h-6 text-brand-orange mb-1" />
+            <h3 className="font-medium text-white text-base">Visual Memory</h3>
+            <p className="text-[15px] text-neutral-400 leading-[1.7] mt-1">A lightweight memory module injects multi-second visual history through the vision encoder for long-horizon, closed-loop control.</p>
           </div>
         </div>
       </motion.div>
