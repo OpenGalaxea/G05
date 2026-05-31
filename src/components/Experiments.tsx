@@ -219,7 +219,7 @@ function TaskGallery({ items, cols }: { items: { src: string; label: string }[];
 function FigureCard({ src, caption }: { src: string; caption: string }) {
   return (
     <figure className="my-8">
-      <div className="bg-white rounded-2xl p-4 border border-white/10 shadow-2xl">
+      <div className="bg-[#0d0d0d] rounded-2xl p-4 md:p-6 border border-white/10 shadow-2xl">
         <img src={src} alt={caption} loading="lazy" className="w-full h-auto rounded-lg" />
       </div>
       <figcaption className="mt-3 text-sm text-neutral-500 font-light leading-relaxed text-center">{caption}</figcaption>
@@ -371,6 +371,8 @@ export function Experiments() {
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
         Do the autoregressive interface and native CoT actually deliver the gains we claim? We freeze a single pretrained checkpoint and switch only the inference-time configuration: the decoder (<strong className="text-white font-medium">AR</strong> action tokens vs. the <strong className="text-white font-medium">FM</strong> flow-matching expert) and the CoT stream (on/off). The probe spans PP Bench (single stage) and two unseen long-horizon tasks — <em>Bread → Air Fryer</em> and <em>Cook Bacon</em> — each decomposed into five sequential stages.
       </p>
+
+      <FigureCard src="images/cot_head_long_horizon.png" caption="CoT × action-head probe on the two zero-shot long-horizon tasks. Progress score (0–5, left) and language-following rate (right) across the four decoder × CoT cells; AR+CoT clearly leads on both Air Fryer and Cook Bacon." />
 
       <DataTable headers={['Task', 'Mode', 'Success ↑', 'Stage ↑', 'LF ↑']} rows={probeRows} highlightLast={false} />
 

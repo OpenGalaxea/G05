@@ -13,7 +13,7 @@ export function InteractiveDiagram() {
 
       {/* Token sequence schematic */}
       <figure className="my-12">
-        <div className="bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
+        <div className="bg-[#0d0d0d] rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
           <img
             src="images/method.png"
             alt="G0.5 token sequence: conditioning and generative segments"
@@ -48,7 +48,7 @@ export function InteractiveDiagram() {
 
       {/* Action codec pipeline */}
       <figure className="my-12">
-        <div className="bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
+        <div className="bg-[#0d0d0d] rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
           <img
             src="images/tokenizer.png"
             alt="Cross-embodiment ActionCodec pipeline"

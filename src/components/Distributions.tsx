@@ -219,7 +219,7 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
       </p>
 
       <figure className="mb-4">
-        <div className="bg-white rounded-2xl p-4 md:p-6 border border-white/10 shadow-2xl">
+        <div className="bg-[#0d0d0d] rounded-2xl p-4 md:p-6 border border-white/10 shadow-2xl">
           <img src="images/data_analyze.png" alt="Top-50 action verbs and object nouns in the pre-training corpus" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
