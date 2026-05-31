@@ -26,6 +26,7 @@ const behaviorScore = [
   { name: 'RLC (1st · 4 ckpt)', value: 0.2605, color: '#4a4a4a' },
   { name: 'π0.5 (4 ep)', value: 0.2626, color: '#5f5f5f' },
   { name: 'G0.5 (1 ep)', value: 0.2904, color: 'url(#expOurs)' },
+  { name: 'G0.5 (4 ep)', value: 0.3136, color: 'url(#expOurs)' },
 ];
 const realTasks = [
   { src: 'images/exp/r1lite_fold_towel.jpg', label: 'R1 Lite · Folding Towel' },
@@ -297,14 +298,14 @@ export function Experiments() {
       </p>
 
       <div className="my-12">
-        <MetricBar title="BEHAVIOR-1K · Task Success Score (Primary Metric)" data={behaviorScore} domain={[0, 0.32]} fmt={(v) => v.toFixed(2)} />
+        <MetricBar title="BEHAVIOR-1K · Task Success Score (Primary Metric)" data={behaviorScore} domain={[0, 0.34]} fmt={(v) => v.toFixed(2)} />
       </div>
 
       <Finding title="Training efficiency">
-        A single G0.5 checkpoint trained for just <strong className="text-white">one</strong> post-training epoch (score 0.2904) surpasses π0.5 trained for four epochs (0.2626) by +10.6% — the same downstream data yields more, faster, from a stronger backbone.
+        A single G0.5 checkpoint trained for just <strong className="text-white">one</strong> post-training epoch (0.2904) already surpasses π0.5 trained for four epochs (0.2626) by +10.6%; with four epochs of its own, G0.5 reaches <strong className="text-white">0.3136</strong> and the lead widens to +19.4% — the model keeps improving with more training, where π0.5 has largely saturated.
       </Finding>
       <Finding title="Single-policy generalization">
-        Across all 50 tasks G0.5 beats the first-place challenge solution (RLC, 0.2605) by +11.5% using one checkpoint, where the winner relied on a set of four. G0.5 leads on 26 of 50 tasks (52%); π0.5 leads on 18 (36%), with 6 comparable.
+        Across all 50 tasks, even one-epoch G0.5 beats the first-place challenge solution (RLC, 0.2605) by +11.5% with a single checkpoint; at four epochs the margin grows to +20.4%, where the winner relied on a set of four. G0.5 leads on 29 of 50 tasks (58%); π0.5 leads on 15 (30%), with 6 comparable.
       </Finding>
       <Finding title="What the pre-training shaped">
         Structured action decomposition decouples navigation from manipulation, and visual-memory pre-training boosts navigation-heavy long-horizon tasks. The remaining gap is distributional — appliance/cabinet-interaction skills (e.g. microwave popcorn) are underrepresented in pre-training, pointing to a clear data path forward.
