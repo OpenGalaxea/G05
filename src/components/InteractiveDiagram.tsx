@@ -11,6 +11,21 @@ export function InteractiveDiagram() {
         </p>
       </div>
 
+      {/* Operation interface (paper Fig. 1) */}
+      <figure className="my-12">
+        <div className="bg-[#0a0a0a] rounded-2xl p-3 md:p-4 border border-white/10 shadow-2xl">
+          <img
+            src="images/teaser.png"
+            alt="G0.5 operation interface: interleaved chain-of-thought and action tokens"
+            className="w-full h-auto rounded-lg select-none pointer-events-none"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+        <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
+          Figure 1: The unified action stream in operation. Given an instruction and target embodiment, G0.5 emits a native chain-of-thought — a subtask and bounding-box grounding — immediately before the action tokens, all within one autoregressive stream, and re-plans closed-loop from each new observation.
+        </figcaption>
+      </figure>
+
       {/* Token sequence schematic */}
       <figure className="my-12">
         <div className="bg-[#0d0d0d] rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
@@ -22,7 +37,7 @@ export function InteractiveDiagram() {
           />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Figure 1: All inputs and outputs serialize into one sequence — a conditioning segment (multi-view RGB, embodiment, task, state) and a generative segment (optional CoT trace, then active-DoF action codes). A single next-token cross-entropy loss is applied to the generative segment only.
+          Figure 2: All inputs and outputs serialize into one sequence — a conditioning segment (multi-view RGB, embodiment, task, state) and a generative segment (optional CoT trace, then active-DoF action codes). A single next-token cross-entropy loss is applied to the generative segment only.
         </figcaption>
       </figure>
 
@@ -42,7 +57,7 @@ export function InteractiveDiagram() {
           />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Figure 2: Cross-embodiment action layout. Every robot is mapped onto the same fixed part slots — left/right arm, grippers, lower body — with each part padded to a shared max dimensionality (real DoFs filled, the rest zero-padded). This yields one unified action vector of fixed dimension across embodiments, which the ActionCodec then tokenizes.
+          Figure 3: Cross-embodiment action layout. Every robot is mapped onto the same fixed part slots — left/right arm, grippers, lower body — with each part padded to a shared max dimensionality (real DoFs filled, the rest zero-padded). This yields one unified action vector of fixed dimension across embodiments, which the ActionCodec then tokenizes.
         </figcaption>
       </figure>
 
@@ -57,7 +72,7 @@ export function InteractiveDiagram() {
           />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Figure 3: The cross-embodiment ActionCodec. Activated motion parts are padded to a shared layout, encoded with a time-contrastive objective, quantized by a residual vector quantizer, and decoded back — emitting structured per-part tokens (<code className="text-[12px]">&lt;part_n&gt;</code>) for only the active DoFs.
+          Figure 4: The cross-embodiment ActionCodec. Activated motion parts are padded to a shared layout, encoded with a time-contrastive objective, quantized by a residual vector quantizer, and decoded back — emitting structured per-part tokens (<code className="text-[12px]">&lt;part_n&gt;</code>) for only the active DoFs.
         </figcaption>
       </figure>
 
@@ -65,20 +80,6 @@ export function InteractiveDiagram() {
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
         Rather than treating reasoning annotations as isolated training-time supervision, G0.5 folds them directly into the action stream. Before predicting actions, the model can optionally emit any subset of four self-describing reasoning targets — an atomic <strong className="text-white font-medium">subtask</strong>, key-object <strong className="text-white font-medium">bounding boxes</strong>, a 2D end-effector <strong className="text-white font-medium">trace</strong>, and a frame-level <strong className="text-white font-medium">action hint</strong> — sampled per step from eight CoT formats (including a no-CoT baseline). Because these tokens share the decoder, context, and objective with the action tokens, reasoning and action are not separate stages but coupled phases of one generative process. The resulting CoT generalizes zero-shot: on unseen scenes the model produces accurate subtasks and grounds task-relevant objects, and enabling CoT consistently improves instruction following and action accuracy on complex manipulation.
       </p>
-
-      <figure className="my-12">
-        <div className="bg-[#0a0a0a] rounded-2xl p-3 md:p-4 border border-white/10 shadow-2xl">
-          <img
-            src="images/teaser.png"
-            alt="G0.5 operation interface: interleaved chain-of-thought and action tokens"
-            className="w-full h-auto rounded-lg select-none pointer-events-none"
-            referrerPolicy="no-referrer"
-          />
-        </div>
-        <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Figure 4: The unified action stream in operation. For each observation the model emits a native chain-of-thought — a subtask and bounding-box grounding — immediately before the action tokens, then re-plans closed-loop from the next frame.
-        </figcaption>
-      </figure>
 
       <h3 id="visual-memory" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">3.3 Visual Memory</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">
