@@ -11,7 +11,7 @@ const DEMOS = [
   { title: 'Hammering a Nail', src: 'videos/oob/hammer_nail.mp4', poster: 'videos/oob/hammer_nail.jpg' },
   { title: 'Folding Clothes & Slippers', src: 'videos/oob/tidy_clothes.mp4', poster: 'videos/oob/tidy_clothes.jpg' },
   { title: 'Tidying the Vanity', src: 'videos/oob/vanity.mp4', poster: 'videos/oob/vanity.jpg' },
-  { title: 'Clearing the Desk', src: 'videos/oob/office_desk.mp4', poster: 'videos/oob/office_desk.jpg' },
+  { title: 'Wiping Away Stains', src: 'videos/oob/clean_stain.mp4', poster: 'videos/oob/clean_stain.jpg' },
   { title: 'At the Washbasin', src: 'videos/oob/washbasin.mp4', poster: 'videos/oob/washbasin.jpg' },
   { title: 'Cleaning the Toilet', src: 'videos/oob/toilet.mp4', poster: 'videos/oob/toilet.jpg' },
 ];
