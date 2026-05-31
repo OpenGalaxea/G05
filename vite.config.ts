@@ -5,6 +5,10 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // Relative base so the build works whether GitLab Pages serves the site at the
+    // domain root or under a project subpath (e.g. /g05_blog/). Asset URLs in the
+    // app are relative for the same reason.
+    base: './',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

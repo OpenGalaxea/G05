@@ -28,22 +28,22 @@ const behaviorScore = [
   { name: 'G0.5 (1 ep)', value: 0.2904, color: 'url(#expOurs)' },
 ];
 const realTasks = [
-  { src: '/images/exp/r1lite_fold_towel.jpg', label: 'R1 Lite · Folding Towel' },
-  { src: '/images/exp/r1lite_fold_carton.jpg', label: 'R1 Lite · Folding Carton' },
-  { src: '/images/exp/r1lite_stationery_incase.jpg', label: 'R1 Lite · Pencil-Case Packing' },
-  { src: '/images/exp/r1pro_fold_towel.jpg', label: 'R1 Pro · Folding Towel' },
-  { src: '/images/exp/r1pro_fold_carton.jpg', label: 'R1 Pro · Folding Carton' },
-  { src: '/images/exp/r1pro_stack_box.jpg', label: 'R1 Pro · Box Transfer & Stacking' },
+  { src: 'images/exp/r1lite_fold_towel.jpg', label: 'R1 Lite · Folding Towel' },
+  { src: 'images/exp/r1lite_fold_carton.jpg', label: 'R1 Lite · Folding Carton' },
+  { src: 'images/exp/r1lite_stationery_incase.jpg', label: 'R1 Lite · Pencil-Case Packing' },
+  { src: 'images/exp/r1pro_fold_towel.jpg', label: 'R1 Pro · Folding Towel' },
+  { src: 'images/exp/r1pro_fold_carton.jpg', label: 'R1 Pro · Folding Carton' },
+  { src: 'images/exp/r1pro_stack_box.jpg', label: 'R1 Pro · Box Transfer & Stacking' },
 ];
 const droidTasks = [
-  { src: '/images/exp/droid_carrot_peach_bowl.png', label: 'Carrot / Peach → Bowl' },
-  { src: '/images/exp/droid_block_plate.png', label: 'Block → Green / Red Plate' },
-  { src: '/images/exp/droid_block_cup.png', label: 'Block → Cup' },
-  { src: '/images/exp/droid_towel_drawer.png', label: 'Towel → Open Drawer' },
-  { src: '/images/exp/droid_pen_drawer.png', label: 'Pen → Open Drawer' },
-  { src: '/images/exp/droid_bowl_left.png', label: 'Bowl → Left' },
-  { src: '/images/exp/droid_towel_bowl_plate.png', label: 'Towel: Bowl → Plate' },
-  { src: '/images/exp/droid_block_drawer_close.png', label: 'Block → Drawer + Close' },
+  { src: 'images/exp/droid_carrot_peach_bowl.png', label: 'Carrot / Peach → Bowl' },
+  { src: 'images/exp/droid_block_plate.png', label: 'Block → Green / Red Plate' },
+  { src: 'images/exp/droid_block_cup.png', label: 'Block → Cup' },
+  { src: 'images/exp/droid_towel_drawer.png', label: 'Towel → Open Drawer' },
+  { src: 'images/exp/droid_pen_drawer.png', label: 'Pen → Open Drawer' },
+  { src: 'images/exp/droid_bowl_left.png', label: 'Bowl → Left' },
+  { src: 'images/exp/droid_towel_bowl_plate.png', label: 'Towel: Bowl → Plate' },
+  { src: 'images/exp/droid_block_drawer_close.png', label: 'Block → Drawer + Close' },
 ];
 
 // Simulation leaderboards (selected rows; G0.5 highlighted).
@@ -272,8 +272,8 @@ export function Experiments() {
         Performance is also balanced across embodiments — 75.6% / 124.5 on the 7-DoF R1 Pro and 77.8% / 133.8 on the 6-DoF R1 Lite — indicating that a single recipe adapts effectively to markedly different morphologies. On the four shared task–embodiment settings, G0.5 averages 75.0% success versus 43.3% (π0.5) and 13.3% (GR00T N1.7).
       </p>
 
-      <FigureCard src="/images/exp/gbench_success_rate.png" caption="Per-setting task success rate across the six real-world fine-tuning settings on R1 Pro and R1 Lite." />
-      <FigureCard src="/images/exp/gbench_process_score.png" caption="Per-setting process score across the six settings, capturing partial task progress under stage-wise criteria." />
+      <FigureCard src="images/exp/gbench_success_rate.png" caption="Per-setting task success rate across the six real-world fine-tuning settings on R1 Pro and R1 Lite." />
+      <FigureCard src="images/exp/gbench_process_score.png" caption="Per-setting process score across the six settings, capturing partial task progress under stage-wise criteria." />
 
       {/* 5.2 DROID zero-shot ------------------------------------------------------- */}
       <h3 id="droid-zeroshot" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.2. DROID Zero-shot Evaluation</h3>
@@ -297,7 +297,7 @@ export function Experiments() {
         One identifiable weakness: the white semi-transparent drawer cabinet offers little visual contrast for localising the aperture, and G0.5 is more sensitive to this than π0.5-DROID. Adding high-contrast markers to the drawer lifts G0.5 to 100% on the towel-insertion task.
       </p>
 
-      <FigureCard src="/images/exp/droid_results.png" caption="Per-task success rate (%) on the DROID zero-shot benchmark for π0.5-DROID, MolmoAct2-DROID, and G0.5 across 10 manipulation tasks." />
+      <FigureCard src="images/exp/droid_results.png" caption="Per-task success rate (%) on the DROID zero-shot benchmark for π0.5-DROID, MolmoAct2-DROID, and G0.5 across 10 manipulation tasks." />
 
       {/* 5.3 Long-horizon — BEHAVIOR-1K ------------------------------------------- */}
       <h3 id="behavior" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.3. Long-Horizon · BEHAVIOR-1K Challenge</h3>
@@ -348,14 +348,14 @@ export function Experiments() {
 
       <figure className="my-10">
         <div className="bg-white rounded-2xl p-3 border border-white/10 shadow-2xl">
-          <img src="/images/pp_objects.jpg" alt="Pick-and-Place benchmark object set" loading="lazy" className="w-full h-auto rounded-lg" />
+          <img src="images/pp_objects.jpg" alt="Pick-and-Place benchmark object set" loading="lazy" className="w-full h-auto rounded-lg" />
         </div>
         <figcaption className="mt-3 text-sm text-neutral-500 font-light leading-relaxed text-center">
           The PP Bench object set — 64 object categories and 3 containers. Each trial presents 16 randomly arranged items, requiring the policy to ground the instructed target among distractors.
         </figcaption>
       </figure>
 
-      <FigureCard src="/images/ppbench.png" caption="PP Bench results. Language-following rate (left) and task success rate (right) for G0.5 and π0.5 across zero-shot, 1H, 10H, and 50H post-training scales." />
+      <FigureCard src="images/ppbench.png" caption="PP Bench results. Language-following rate (left) and task success rate (right) for G0.5 and π0.5 across zero-shot, 1H, 10H, and 50H post-training scales." />
 
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
         Even <strong className="text-white font-medium">zero-shot</strong>, G0.5 follows instructions 65.6% of the time and completes 59.4% of tasks. Post-training scales both metrics (84.4% / 75.0% at 50H). Under the matched 50H setting, G0.5 still outperforms π0.5 by 12.4 points in language following and 22.0 points in task success — we attribute this to web-data co-training (open-vocabulary grounding) and R1 Lite pre-training (action priors).

@@ -202,7 +202,7 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
 
       <figure className="mb-12">
         <div className="bg-white rounded-2xl p-4 md:p-6 border border-white/10 shadow-2xl">
-          <img src="/images/embodiments.png" alt="Robot platforms represented in pre-training" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
+          <img src="images/embodiments.png" alt="Robot platforms represented in pre-training" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
           The 18 real and simulated robot platforms that make up the pre-training mixture, from single arms to bimanual mobile manipulators and full-size humanoids.
@@ -220,7 +220,7 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
 
       <figure className="mb-4">
         <div className="bg-white rounded-2xl p-4 md:p-6 border border-white/10 shadow-2xl">
-          <img src="/images/data_analyze.png" alt="Top-50 action verbs and object nouns in the pre-training corpus" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
+          <img src="images/data_analyze.png" alt="Top-50 action verbs and object nouns in the pre-training corpus" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
           Top-50 action verbs and object nouns in the pre-training corpus (log scale). Both follow a long-tailed distribution — dominated by manipulation primitives (pick, place, move) and everyday household objects, with a diverse tail of rarer skills.

@@ -1,0 +1,22 @@
+# GitLab Pages deploy for the G0.5 technical blog (Vite static build).
+#
+# Note: Vite uses ./public as its SOURCE static dir and builds into ./dist,
+# but GitLab Pages serves whatever ends up in ./public. So we build first
+# (Vite copies public/* into dist/), then replace public/ with the built dist/.
+image: node:20
+
+stages:
+  - deploy
+
+pages:
+  stage: deploy
+  script:
+    - npm ci
+    - npm run build          # reads ./public, outputs ./dist (with public/* copied in)
+    - rm -rf public
+    - mv dist public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

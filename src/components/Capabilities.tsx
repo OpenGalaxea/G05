@@ -4,12 +4,12 @@ import { ChevronDown, Play } from 'lucide-react';
 
 // Zero-shot instruction → demo clip. Clips live in public/videos/oob/.
 const ZEROSHOT = [
-  { instruction: 'Toast the bread in the toaster', src: '/videos/oob/toast_bread.mp4', poster: '/videos/oob/toast_bread.jpg' },
-  { instruction: 'Cook with the air fryer', src: '/videos/oob/air_fryer.mp4', poster: '/videos/oob/air_fryer.jpg' },
-  { instruction: 'Stir-fry the dish on the stove', src: '/videos/oob/stir_fry.mp4', poster: '/videos/oob/stir_fry.jpg' },
-  { instruction: 'Start the rice cooker', src: '/videos/oob/rice_cooker.mp4', poster: '/videos/oob/rice_cooker.jpg' },
-  { instruction: 'Tidy the clothes and slippers', src: '/videos/oob/tidy_clothes.mp4', poster: '/videos/oob/tidy_clothes.jpg' },
-  { instruction: 'Clean the washbasin', src: '/videos/oob/washbasin.mp4', poster: '/videos/oob/washbasin.jpg' },
+  { instruction: 'Toast the bread in the toaster', src: 'videos/oob/toast_bread.mp4', poster: 'videos/oob/toast_bread.jpg' },
+  { instruction: 'Cook with the air fryer', src: 'videos/oob/air_fryer.mp4', poster: 'videos/oob/air_fryer.jpg' },
+  { instruction: 'Stir-fry the dish on the stove', src: 'videos/oob/stir_fry.mp4', poster: 'videos/oob/stir_fry.jpg' },
+  { instruction: 'Start the rice cooker', src: 'videos/oob/rice_cooker.mp4', poster: 'videos/oob/rice_cooker.jpg' },
+  { instruction: 'Tidy the clothes and slippers', src: 'videos/oob/tidy_clothes.mp4', poster: 'videos/oob/tidy_clothes.jpg' },
+  { instruction: 'Clean the washbasin', src: 'videos/oob/washbasin.mp4', poster: 'videos/oob/washbasin.jpg' },
 ];
 
 function InstructionPicker() {

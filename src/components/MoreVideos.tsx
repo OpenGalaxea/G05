@@ -4,16 +4,16 @@ import { Play } from 'lucide-react';
 
 // Real-home deployment clips. Files live in public/videos/oob/.
 const DEMOS = [
-  { title: 'Toasting Bread', src: '/videos/oob/toast_bread.mp4', poster: '/videos/oob/toast_bread.jpg' },
-  { title: 'Operating the Air Fryer', src: '/videos/oob/air_fryer.mp4', poster: '/videos/oob/air_fryer.jpg' },
-  { title: 'Stir-frying on the Stove', src: '/videos/oob/stir_fry.mp4', poster: '/videos/oob/stir_fry.jpg' },
-  { title: 'Using the Rice Cooker', src: '/videos/oob/rice_cooker.mp4', poster: '/videos/oob/rice_cooker.jpg' },
-  { title: 'Hammering a Nail', src: '/videos/oob/hammer_nail.mp4', poster: '/videos/oob/hammer_nail.jpg' },
-  { title: 'Folding Clothes & Slippers', src: '/videos/oob/tidy_clothes.mp4', poster: '/videos/oob/tidy_clothes.jpg' },
-  { title: 'Tidying the Vanity', src: '/videos/oob/vanity.mp4', poster: '/videos/oob/vanity.jpg' },
-  { title: 'Clearing the Desk', src: '/videos/oob/office_desk.mp4', poster: '/videos/oob/office_desk.jpg' },
-  { title: 'At the Washbasin', src: '/videos/oob/washbasin.mp4', poster: '/videos/oob/washbasin.jpg' },
-  { title: 'Cleaning the Toilet', src: '/videos/oob/toilet.mp4', poster: '/videos/oob/toilet.jpg' },
+  { title: 'Toasting Bread', src: 'videos/oob/toast_bread.mp4', poster: 'videos/oob/toast_bread.jpg' },
+  { title: 'Operating the Air Fryer', src: 'videos/oob/air_fryer.mp4', poster: 'videos/oob/air_fryer.jpg' },
+  { title: 'Stir-frying on the Stove', src: 'videos/oob/stir_fry.mp4', poster: 'videos/oob/stir_fry.jpg' },
+  { title: 'Using the Rice Cooker', src: 'videos/oob/rice_cooker.mp4', poster: 'videos/oob/rice_cooker.jpg' },
+  { title: 'Hammering a Nail', src: 'videos/oob/hammer_nail.mp4', poster: 'videos/oob/hammer_nail.jpg' },
+  { title: 'Folding Clothes & Slippers', src: 'videos/oob/tidy_clothes.mp4', poster: 'videos/oob/tidy_clothes.jpg' },
+  { title: 'Tidying the Vanity', src: 'videos/oob/vanity.mp4', poster: 'videos/oob/vanity.jpg' },
+  { title: 'Clearing the Desk', src: 'videos/oob/office_desk.mp4', poster: 'videos/oob/office_desk.jpg' },
+  { title: 'At the Washbasin', src: 'videos/oob/washbasin.mp4', poster: 'videos/oob/washbasin.jpg' },
+  { title: 'Cleaning the Toilet', src: 'videos/oob/toilet.mp4', poster: 'videos/oob/toilet.jpg' },
 ];
 
 const DemoCard: FC<{ title: string; src: string; poster: string; idx: number }> = ({ title, src, poster, idx }) => {

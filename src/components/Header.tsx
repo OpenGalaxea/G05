@@ -19,7 +19,7 @@ export function Header() {
     >
       <div className="max-w-[1600px] mx-auto px-6 flex items-center">
         <div className="flex items-center gap-2">
-          <img src="/images/Galaxea.png" alt="Galaxea Logo" className="h-6" referrerPolicy="no-referrer" />
+          <img src="images/Galaxea.png" alt="Galaxea Logo" className="h-6" referrerPolicy="no-referrer" />
         </div>
       </div>
     </header>
