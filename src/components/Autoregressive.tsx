@@ -1,29 +1,29 @@
 export function Autoregressive() {
   return (
     <section className="w-full">
-      <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">From post-training to zero-shot generalization</h2>
-      
+      <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">From VLM-as-Encoder to VLM-as-Actor</h2>
+
       <div className="flex flex-col gap-6 text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-10">
         <p>
-          Traditional robotic models have heavily relied on task-specific post-training alignment, requiring extensive fine-tuning tailored to specific tasks, environments, and robot embodiments to exhibit stable orchestration. By contrast, <strong>the core breakthrough of G0.5 lies in</strong> achieving robust multimodal alignment solely through large-scale, multi-task generative pre-training. This shift equips the model with highly transferable, modular manipulation primitives that natively generalize to unseen tasks and atomic actions under zero-shot conditions.
+          Early VLA systems cast robot control as token generation: continuous actions were discretized, appended to the language vocabulary, and predicted by the VLM alongside text. This keeps the VLM itself the actor, but scales poorly — as control frequency, action horizon, and action dimensionality grow, per-timestep action tokens explode, making high-frequency control slow and expensive.
         </p>
         <p>
-          This implies that robots are no longer relying on downstream adaptation or "memorizing" individual scenarios; instead, they establish a fundamental understanding of manipulation semantics, visual targets, and trajectory patterns through unsupervised pre-training. <strong>Atomic policies such as grasping, placing, pushing, sliding, lifting, and aligning</strong> are crystallized as reusable behavioral units, seamlessly invoked across novel objects, complex environments, and dynamic natural language instructions.
+          This bottleneck pushed the field toward <strong className="text-white font-medium">VLM-as-Encoder</strong> architectures, where a pre-trained VLM supplies hidden states or visual-language context to a separately trained flow-matching or diffusion expert that predicts continuous action chunks. Action efficiency improves, but the VLM is no longer the action generator — it becomes a condition encoder, while the action distribution is produced by an expert with separate parameters and a separate objective. Core generative abilities — chain-of-thought reasoning, in-context learning, prompt-based motion steering — can then influence behavior only after passing through a compressed conditioning bottleneck.
         </p>
         <p>
-          The significance of G0.5 goes beyond dramatic upgrades in out-of-the-box physical execution; it validates a highly scalable trajectory for general-purpose embodied intelligence: <strong>constructing a universal foundation for robotic manipulation via massive pre-training</strong>, thereby shifting the paradigm of embodied foundation models from "post-training-dependent task adaptation" toward "pre-training-driven zero-shot physical generalization."
+          We therefore return to the autoregressive formulation, but remove the source of its original inefficiency: <strong className="text-white font-medium">excessive action tokenization</strong>. A learned vector-quantized codec compresses action chunks into compact discrete codes, and active degree-of-freedom prediction avoids spending tokens on joints that do not need to move. Together these choices slash the decoding burden while preserving the VLM as a generative actor.
         </p>
       </div>
-      
+
       <blockquote className="border-l-4 border-brand-orange pl-8 py-3 my-12 bg-white/[0.02] rounded-r-2xl">
         <p className="text-xl md:text-2xl italic text-neutral-200 mt-0 mb-0 font-light leading-relaxed">
-          "The true bottleneck of embodied AI has never been fine-tuning, but the lack of a universal pre-trained base. Zero-shot physical generalization is a native emergent property of internet-scale pre-training."
+          "The path forward for VLA is not to place increasingly sophisticated action experts on top of an underused VLM, but to let the VLM remain what pretraining made it: an autoregressive reasoner that can also act, remember, and adapt in context."
         </p>
       </blockquote>
 
-      <h3 className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight">Pre-trained Physical Commonsense</h3>
+      <h3 className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight">Reasoning and action, one weight</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
-        We convert continuous action vectors into discrete spatial tokens, allowing us to utilize autoregressive likelihood modeling techniques proved superior in general LLMs. By predicting the next discrete action token <code className="bg-surface/60 px-2 py-1 rounded-md text-brand-orange-light font-mono text-base border border-white/10 mx-1">a_t</code> conditioned on observation sequences <code className="bg-surface/60 px-2 py-1 rounded-md text-brand-orange-light font-mono text-base border border-white/10 mx-1">o_{'{'}&lt;t{'}'}</code>, G0.5 embeds a native understanding of gravity, contact force, and geometric affordance into its parameter space.
+        Once reasoning and action share the same autoregressive stream, chain-of-thought becomes a native component of control rather than a bolt-on module. The model can zero-shot decompose an instruction into subtasks, identify task-relevant objects and their bounding boxes, and feed those intermediate predictions directly into subsequent action generation. A revealing thread in the VLM+expert literature points the same way: the <em>anti-forgetting</em> remedy of Knowledge Insulation reintroduces autoregressive action prediction precisely to protect the backbone — implicitly conceding that AR action supervision is the signal that keeps a VLM's capabilities intact.
       </p>
     </section>
   );
