@@ -17,22 +17,25 @@ import { Footer } from './components/Footer';
 function TOC() {
   const sections = [
     { id: "introduction", label: "1. Introduction" },
-    { id: "autoregressive-pretraining", label: "2. From post-training to zero-shot generalization" },
-    { id: "introducing-g05", label: "3. Introducing G0.5" },
-    { id: "faster-actioncodec", label: "3.1. Faster-ActionCodec", isSub: true },
-    { id: "long-history-context", label: "3.2. Long-history context", isSub: true },
-    { id: "action-reasoning", label: "3.3. Action reasoning", isSub: true },
-    { id: "distribution-data", label: "3.4. Pre-training & Embodiment Distributions", isSub: true },
-    { id: "capabilities", label: "4. Capabilities" },
-    { id: "zero-shot", label: "4.1. Zero-shot Instruction Following", isSub: true },
-    { id: "posttraining-efficiency", label: "4.2. Posttraining Efficiency", isSub: true },
-    { id: "agentic-planning", label: "4.3. Agentic Planning", isSub: true },
+    { id: "autoregressive-pretraining", label: "2. VLM-as-Encoder → VLM-as-Actor" },
+    { id: "introducing-g05", label: "3. G0.5 Model Design" },
+    { id: "action-codec", label: "3.1. Cross-Embodiment Action Codec", isSub: true },
+    { id: "native-cot", label: "3.2. Native Chain-of-Thought", isSub: true },
+    { id: "visual-memory", label: "3.3. Visual Memory", isSub: true },
+    { id: "pretraining", label: "4. Pre-training" },
     { id: "experiments", label: "5. Experiments" },
     { id: "real-world", label: "5.1. Real-World Fine-Tuning", isSub: true },
     { id: "droid-zeroshot", label: "5.2. DROID Zero-shot", isSub: true },
-    { id: "out-of-box", label: "6. Out-of-box application" },
-    { id: "pick-place", label: "Pick up Anything & Place anywhere", isSub: true },
-    { id: "videos", label: "7. More videos" }
+    { id: "behavior", label: "5.3. BEHAVIOR-1K Challenge", isSub: true },
+    { id: "simulation", label: "5.4. Simulation Benchmarks", isSub: true },
+    { id: "pp-bench", label: "5.5. Pick-and-Place Benchmark", isSub: true },
+    { id: "cot-probe", label: "5.6. CoT & Action Head", isSub: true },
+    { id: "capabilities", label: "6. Emergent Capabilities" },
+    { id: "zero-shot", label: "6.1. Zero-shot Following", isSub: true },
+    { id: "prompt-control", label: "6.2. Prompt-driven Control", isSub: true },
+    { id: "out-of-box", label: "7. Out-of-box Application" },
+    { id: "pick-place", label: "Pick up Anything & Place Anywhere", isSub: true },
+    { id: "videos", label: "8. More Videos" }
   ];
   
   const [activeId, setActiveId] = useState("introduction");
@@ -141,15 +144,18 @@ export default function App() {
 
               <div id="introducing-g05" className="scroll-mt-32">
                 <InteractiveDiagram />
-                <Distributions onInViewChange={setDistro} />
               </div>
-              
-              <div id="capabilities" className="scroll-mt-32">
-                <Capabilities />
+
+              <div id="pretraining" className="scroll-mt-32">
+                <Distributions onInViewChange={setDistro} />
               </div>
 
               <div id="experiments" className="scroll-mt-32">
                 <Experiments />
+              </div>
+
+              <div id="capabilities" className="scroll-mt-32">
+                <Capabilities />
               </div>
 
               <div id="out-of-box" className="scroll-mt-32">

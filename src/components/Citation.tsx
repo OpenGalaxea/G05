@@ -7,11 +7,10 @@ export function Citation() {
   const [isCopied, setIsCopied] = useState(false);
 
   const bibtex = `@article{galaxea2026g05,
-  title={Introducing G0.5: The First Fully Autoregressive VLA Model},
-  author={{Galaxea AI Research}},
-  journal={Galaxea Dynamics Technical Report},
+  title={Galaxea G0.5 Technical Report},
+  author={{Galaxea Team}},
   year={2026},
-  month={May}
+  url={https://opengalaxea.github.io/G05/}
 }`;
 
   const handleCopy = () => {
