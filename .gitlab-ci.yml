@@ -3,7 +3,10 @@
 # Note: Vite uses ./public as its SOURCE static dir and builds into ./dist,
 # but GitLab Pages serves whatever ends up in ./public. So we build first
 # (Vite copies public/* into dist/), then replace public/ with the built dist/.
-image: node:20
+#
+# Image is pulled via the DaoCloud mirror because Docker Hub is unreachable on
+# this network. Equivalent to docker.io/library/node:20.
+image: docker.m.daocloud.io/library/node:20
 
 stages:
   - deploy
