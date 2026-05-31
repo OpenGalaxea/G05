@@ -31,6 +31,21 @@ export function InteractiveDiagram() {
         A pure-AR policy must discretize continuous actions, and most prior schemes flatten the whole action space into one vector before quantization — entangling action semantics and making token count scale with total DoFs even though only a few joints move at any step. Adopting the action-grouping strategy of FASTer together with the ActionCodec training recipe, G0.5 instead decomposes each robot into independent <strong className="text-white font-medium">motion parts</strong> (left arm, right arm, lower body), pads each part to a shared dimensionality, and trains a <strong className="text-white font-medium">residual vector-quantization (RVQ)</strong> model over the grouped actions. A temporal contrastive objective improves token consistency across adjacent motions, so semantically similar actions map to nearby codes rather than jumping erratically. Structural special tokens such as <code className="bg-surface/60 px-2 py-1 rounded-md text-brand-orange-light font-mono text-base border border-white/10 mx-1">&lt;left_control_n&gt;</code> let the model emit only the parts that are actively moving — inactive parts stay still without spending any tokens.
       </p>
 
+      {/* Cross-embodiment action layout (fixed slots + zero-padding) */}
+      <figure className="my-12">
+        <div className="bg-[#0d0d0d] rounded-3xl p-5 md:p-8 border border-white/10 shadow-2xl flex justify-center">
+          <img
+            src="/images/g05_action_layout.svg"
+            alt="Cross-embodiment action layout: fixed per-part slots with zero-padding"
+            className="w-full max-w-md h-auto select-none pointer-events-none"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+        <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
+          Figure 2: Cross-embodiment action layout. Every robot is mapped onto the same fixed part slots — left/right arm, grippers, lower body — with each part padded to a shared max dimensionality (real DoFs filled, the rest zero-padded). This yields one unified action vector of fixed dimension across embodiments, which the ActionCodec then tokenizes.
+        </figcaption>
+      </figure>
+
       {/* Action codec pipeline */}
       <figure className="my-12">
         <div className="bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
@@ -42,7 +57,7 @@ export function InteractiveDiagram() {
           />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Figure 2: The cross-embodiment ActionCodec. Activated motion parts are padded to a shared layout, encoded with a time-contrastive objective, quantized by a residual vector quantizer, and decoded back — emitting structured per-part tokens (<code className="text-[12px]">&lt;part_n&gt;</code>) for only the active DoFs.
+          Figure 3: The cross-embodiment ActionCodec. Activated motion parts are padded to a shared layout, encoded with a time-contrastive objective, quantized by a residual vector quantizer, and decoded back — emitting structured per-part tokens (<code className="text-[12px]">&lt;part_n&gt;</code>) for only the active DoFs.
         </figcaption>
       </figure>
 
@@ -61,7 +76,7 @@ export function InteractiveDiagram() {
           />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Figure 3: The unified action stream in operation. For each observation the model emits a native chain-of-thought — a subtask and bounding-box grounding — immediately before the action tokens, then re-plans closed-loop from the next frame.
+          Figure 4: The unified action stream in operation. For each observation the model emits a native chain-of-thought — a subtask and bounding-box grounding — immediately before the action tokens, then re-plans closed-loop from the next frame.
         </figcaption>
       </figure>
 
