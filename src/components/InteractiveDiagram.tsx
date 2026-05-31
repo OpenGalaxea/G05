@@ -11,45 +11,59 @@ export function InteractiveDiagram() {
         </p>
       </div>
 
-      {/* Model Architecture Diagram */}
-      <div className="bg-[#111111] border border-white/5 rounded-3xl p-6 md:p-10 mb-12 flex flex-col items-center justify-center gap-4 shadow-xl">
-        <div className="w-full max-w-5xl relative overflow-hidden rounded-2xl bg-black/40 border border-white/10 p-2 md:p-4">
+      {/* Token sequence schematic */}
+      <figure className="my-12">
+        <div className="bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
           <img
-            src="/images/g05_arch.svg"
-            alt="G0.5 unified autoregressive architecture"
-            className="w-full h-auto object-contain select-none pointer-events-none"
+            src="/images/method.png"
+            alt="G0.5 token sequence: conditioning and generative segments"
+            className="w-full h-auto rounded-lg select-none pointer-events-none"
             referrerPolicy="no-referrer"
           />
         </div>
-        <span className="text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Figure 1: G0.5 unifies embodied reasoning and control into a single autoregressive sequence — a native chain-of-thought followed by action tokens organized by active motion part, re-planned closed-loop from each new observation.
-        </span>
-      </div>
+        <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
+          Figure 1: All inputs and outputs serialize into one sequence — a conditioning segment (multi-view RGB, embodiment, task, state) and a generative segment (optional CoT trace, then active-DoF action codes). A single next-token cross-entropy loss is applied to the generative segment only.
+        </figcaption>
+      </figure>
 
       <h3 id="action-codec" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">3.1 Cross-Embodiment Action Codec</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
         A pure-AR policy must discretize continuous actions, and most prior schemes flatten the whole action space into one vector before quantization — entangling action semantics and making token count scale with total DoFs even though only a few joints move at any step. Adopting the action-grouping strategy of FASTer together with the ActionCodec training recipe, G0.5 instead decomposes each robot into independent <strong className="text-white font-medium">motion parts</strong> (left arm, right arm, lower body), pads each part to a shared dimensionality, and trains a <strong className="text-white font-medium">residual vector-quantization (RVQ)</strong> model over the grouped actions. A temporal contrastive objective improves token consistency across adjacent motions, so semantically similar actions map to nearby codes rather than jumping erratically. Structural special tokens such as <code className="bg-surface/60 px-2 py-1 rounded-md text-brand-orange-light font-mono text-base border border-white/10 mx-1">&lt;left_control_n&gt;</code> let the model emit only the parts that are actively moving — inactive parts stay still without spending any tokens.
       </p>
 
-      {/* Action codec / tokenizer diagram */}
-      <div className="bg-[#111111] border border-white/5 rounded-3xl p-6 md:p-10 mb-12 flex flex-col items-center justify-center gap-4 shadow-xl">
-        <div className="w-full max-w-4xl relative overflow-hidden rounded-2xl bg-black/40 border border-white/10 p-2 md:p-4">
+      {/* Action codec pipeline */}
+      <figure className="my-12">
+        <div className="bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
           <img
-            src="/images/g05_dark_fig3.svg"
-            alt="Token sequence template and structured action codes"
-            className="w-full h-auto object-contain select-none pointer-events-none"
+            src="/images/tokenizer.png"
+            alt="Cross-embodiment ActionCodec pipeline"
+            className="w-full h-auto rounded-lg select-none pointer-events-none"
             referrerPolicy="no-referrer"
           />
         </div>
-        <span className="text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Figure 2: Token sequence template. An optional CoT span (any subset of Subtask, BBox, Trace, ActionHint) precedes the action codes, which expand into residual rounds of DoF-group markers each followed by VQ codes — only active groups are emitted.
-        </span>
-      </div>
+        <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
+          Figure 2: The cross-embodiment ActionCodec. Activated motion parts are padded to a shared layout, encoded with a time-contrastive objective, quantized by a residual vector quantizer, and decoded back — emitting structured per-part tokens (<code className="text-[12px]">&lt;part_n&gt;</code>) for only the active DoFs.
+        </figcaption>
+      </figure>
 
       <h3 id="native-cot" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">3.2 Native Chain-of-Thought</h3>
-      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">
+      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
         Rather than treating reasoning annotations as isolated training-time supervision, G0.5 folds them directly into the action stream. Before predicting actions, the model can optionally emit any subset of four self-describing reasoning targets — an atomic <strong className="text-white font-medium">subtask</strong>, key-object <strong className="text-white font-medium">bounding boxes</strong>, a 2D end-effector <strong className="text-white font-medium">trace</strong>, and a frame-level <strong className="text-white font-medium">action hint</strong> — sampled per step from eight CoT formats (including a no-CoT baseline). Because these tokens share the decoder, context, and objective with the action tokens, reasoning and action are not separate stages but coupled phases of one generative process. The resulting CoT generalizes zero-shot: on unseen scenes the model produces accurate subtasks and grounds task-relevant objects, and enabling CoT consistently improves instruction following and action accuracy on complex manipulation.
       </p>
+
+      <figure className="my-12">
+        <div className="bg-[#0a0a0a] rounded-2xl p-3 md:p-4 border border-white/10 shadow-2xl">
+          <img
+            src="/images/teaser.png"
+            alt="G0.5 operation interface: interleaved chain-of-thought and action tokens"
+            className="w-full h-auto rounded-lg select-none pointer-events-none"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+        <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
+          Figure 3: The unified action stream in operation. For each observation the model emits a native chain-of-thought — a subtask and bounding-box grounding — immediately before the action tokens, then re-plans closed-loop from the next frame.
+        </figcaption>
+      </figure>
 
       <h3 id="visual-memory" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">3.3 Visual Memory</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">

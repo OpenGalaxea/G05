@@ -200,6 +200,15 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
         </p>
       </div>
 
+      <figure className="mb-12">
+        <div className="bg-white rounded-2xl p-4 md:p-6 border border-white/10 shadow-2xl">
+          <img src="/images/embodiments.png" alt="Robot platforms represented in pre-training" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
+        </div>
+        <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
+          The 18 real and simulated robot platforms that make up the pre-training mixture, from single arms to bimanual mobile manipulators and full-size humanoids.
+        </figcaption>
+      </figure>
+
       <div id="distribution-data" className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 scroll-mt-32">
         <DonutCard title="Embodiments Distribution" subtitle="Pre-training hours by physical robot embodiment." accent="#FF8A1E" items={emb.items} active={ea} setActive={setEa} />
         <DonutCard title="Datasets Distribution" subtitle="Pre-training hours by source dataset." accent="#4B6B88" items={ds.items} active={da} setActive={setDa} />
@@ -208,6 +217,15 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
       <p className="text-sm text-neutral-500 font-light leading-relaxed mb-12 border-l-2 border-white/10 pl-4">
         <span className="font-mono text-neutral-400">Recipe.</span> Trained with AdamW under a single cross-entropy objective (plus the auxiliary flow-matching loss) for ~120K steps. Observations are 6 frames sampled at 1 s over a 5 s window; 30% of memory frames are dropped as regularization for the visual-memory module.
       </p>
+
+      <figure className="mb-4">
+        <div className="bg-white rounded-2xl p-4 md:p-6 border border-white/10 shadow-2xl">
+          <img src="/images/data_analyze.png" alt="Top-50 action verbs and object nouns in the pre-training corpus" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
+        </div>
+        <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
+          Top-50 action verbs and object nouns in the pre-training corpus (log scale). Both follow a long-tailed distribution — dominated by manipulation primitives (pick, place, move) and everyday household objects, with a diverse tail of rarer skills.
+        </figcaption>
+      </figure>
 
       {leftSlot && createPortal(<DetailPanel item={emb.items[ea]} rank={ea + 1} count={emb.items.length} label="Embodiment" />, leftSlot)}
       {rightSlot && createPortal(<DetailPanel item={ds.items[da]} rank={da + 1} count={ds.items.length} label="Source dataset" />, rightSlot)}

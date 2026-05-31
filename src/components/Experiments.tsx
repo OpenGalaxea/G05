@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { motion } from 'motion/react';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Cell, LabelList, Legend } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Cell, LabelList } from 'recharts';
 
 // ---------------------------------------------------------------------------
 // Data — taken directly from the G0.5 technical report (tables & figures).
@@ -27,15 +27,6 @@ const behaviorScore = [
   { name: 'π0.5 (4 ep)', value: 0.2612, color: '#5f5f5f' },
   { name: 'G0.5 (1 ep)', value: 0.2904, color: 'url(#expOurs)' },
 ];
-// Pick-and-Place Benchmark — language following & task success across data scales.
-const ppBench = [
-  { name: 'Zero-shot', lf: 65.6, success: 59.4 },
-  { name: '1H', lf: 62.5, success: 57.8 },
-  { name: '10H', lf: 71.9, success: 65.6 },
-  { name: '50H', lf: 84.4, success: 75.0 },
-  { name: 'π0.5 · 50H', lf: 72.0, success: 53.0 },
-];
-
 const realTasks = [
   { src: '/images/exp/r1lite_fold_towel.jpg', label: 'R1 Lite · Folding Towel' },
   { src: '/images/exp/r1lite_fold_carton.jpg', label: 'R1 Lite · Folding Carton' },
@@ -149,28 +140,6 @@ function MetricBar({ title, data, unit = '', domain, fmt }: { title: string; dat
               <LabelList dataKey="value" position="top" formatter={(v: number) => `${fmt ? fmt(v) : v}${unit}`} fill="#e5e5e5" fontSize={12} />
               {data.map((entry, i) => (<Cell key={i} fill={entry.color} />))}
             </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  );
-}
-
-function GroupedBar({ title, data }: { title: string; data: any[] }) {
-  return (
-    <div className="bg-[#111111] border border-white/5 shadow-2xl rounded-3xl p-8">
-      <h4 className="text-base font-medium text-white/90 mb-6 text-center m-0">{title}</h4>
-      <div className="h-80 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 24, right: 16, left: -8, bottom: 0 }}>
-            <OursDefs />
-            <CartesianGrid strokeDasharray="3 3" stroke="#262626" vertical={false} />
-            <XAxis dataKey="name" stroke="#525252" tick={{ fill: '#a3a3a3', fontSize: 11 }} axisLine={{ stroke: '#262626' }} tickLine={false} dy={8} interval={0} />
-            <YAxis stroke="#525252" tick={{ fill: '#a3a3a3', fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v}%`} domain={[0, 100]} dx={-6} />
-            <Tooltip content={(p) => <ChartTooltip {...p} unit="%" />} cursor={{ fill: '#ffffff05' }} />
-            <Legend wrapperStyle={{ fontSize: 12, color: '#a3a3a3' }} />
-            <Bar name="Language Following" dataKey="lf" fill="#5f5f5f" radius={[5, 5, 0, 0]} maxBarSize={40} isAnimationActive={false} />
-            <Bar name="Task Success" dataKey="success" fill="url(#expOurs)" radius={[5, 5, 0, 0]} maxBarSize={40} isAnimationActive={false} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -377,9 +346,16 @@ export function Experiments() {
         Large-scale pre-training should improve not just low-level action but <strong className="text-white font-medium">language following in cluttered scenes</strong>. PP Bench disentangles the two by separately reporting the language-following rate (did the robot move toward the correct target among 16 distractors?) and the task success rate (did it complete the full pick-and-place?). We sweep post-training data from zero-shot up to 50 hours on R1 Lite.
       </p>
 
-      <div className="my-12">
-        <GroupedBar title="PP Bench · Language Following vs. Task Success" data={ppBench} />
-      </div>
+      <figure className="my-10">
+        <div className="bg-white rounded-2xl p-3 border border-white/10 shadow-2xl">
+          <img src="/images/pp_objects.jpg" alt="Pick-and-Place benchmark object set" loading="lazy" className="w-full h-auto rounded-lg" />
+        </div>
+        <figcaption className="mt-3 text-sm text-neutral-500 font-light leading-relaxed text-center">
+          The PP Bench object set — 64 object categories and 3 containers. Each trial presents 16 randomly arranged items, requiring the policy to ground the instructed target among distractors.
+        </figcaption>
+      </figure>
+
+      <FigureCard src="/images/ppbench.png" caption="PP Bench results. Language-following rate (left) and task success rate (right) for G0.5 and π0.5 across zero-shot, 1H, 10H, and 50H post-training scales." />
 
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
         Even <strong className="text-white font-medium">zero-shot</strong>, G0.5 follows instructions 65.6% of the time and completes 59.4% of tasks. Post-training scales both metrics (84.4% / 75.0% at 50H). Under the matched 50H setting, G0.5 still outperforms π0.5 by 12.4 points in language following and 22.0 points in task success — we attribute this to web-data co-training (open-vocabulary grounding) and R1 Lite pre-training (action priors).
