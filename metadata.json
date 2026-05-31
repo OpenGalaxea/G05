@@ -1,0 +1,8 @@
+{
+  "name": "Galaxea Dynamics: G0.5 Technical Report",
+  "description": "An interactive, academic-style blog post for the G0.5 generalist embodied foundation model, featuring a dark theme and dynamic React-Motion elements.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
