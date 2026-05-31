@@ -136,6 +136,22 @@ export default function App() {
                 </div>
                 
                 <Hero />
+
+                <figure className="w-full">
+                  <video
+                    className="w-full rounded-3xl border border-white/10 shadow-[0_0_50px_rgba(250,115,23,0.08)] bg-black"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    poster="videos/introduction_g05.jpg"
+                  >
+                    <source src="videos/introduction_g05.mp4" type="video/mp4" />
+                  </video>
+                  <figcaption className="mt-3 text-sm text-neutral-500 font-light text-center">
+                    Introducing G0.5 — a video overview.
+                  </figcaption>
+                </figure>
+
                 <Abstract />
               </div>
               
