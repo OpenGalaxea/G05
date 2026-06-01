@@ -318,7 +318,7 @@ export function Experiments() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-10">
         <StatCard value="98.9%" label="LIBERO" sub="avg over 4 suites · SOTA" />
         <StatCard value="93.3%" label="RoboTwin 2.0" sub="clean + randomized avg" />
-        <StatCard value="87.3%" label="SimplerEnv-Bridge" sub="4-task average" />
+        <StatCard value="87.3%" label="SimplerEnv-Bridge" sub="4-task avg · 120 evals/task" />
       </div>
 
       <h4 className="text-lg font-medium text-white/90 mt-12 mb-2">LIBERO <span className="text-neutral-500 font-light text-sm">— success rate (%) by suite</span></h4>
