@@ -1,7 +1,7 @@
 export function Autoregressive() {
   return (
     <section className="w-full">
-      <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">From VLM-as-Encoder to VLM-as-Actor</h2>
+      <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">2. From VLM-as-Encoder to VLM-as-Actor</h2>
 
       <div className="flex flex-col gap-6 text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-10">
         <p>
