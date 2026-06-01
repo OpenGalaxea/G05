@@ -95,10 +95,6 @@ export default function App() {
     damping: 30,
     restDelta: 0.001
   });
-  // When the distributions section is in view, the left TOC yields to the
-  // embodiments detail panel (and the right spacer shows the dataset panel).
-  const [distro, setDistro] = useState(false);
-
   return (
     <div className="min-h-screen bg-bg-dark text-neutral-200 font-sans selection:bg-brand-orange/30 selection:text-white">
       <motion.div 
@@ -119,11 +115,8 @@ export default function App() {
           <div className="w-full flex items-start justify-center xl:justify-start select-text">
             {/* Left Sidebar TOC — yields to the embodiments detail panel over the distributions section */}
             <aside className="w-64 shrink-0 hidden xl:block self-stretch mr-16 mt-4">
-              <div className="sticky top-32 relative">
-                <div className={`transition-opacity duration-300 ${distro ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-                  <TOC />
-                </div>
-                <div id="distro-left-slot" className={`absolute inset-x-0 top-0 transition-opacity duration-300 ${distro ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} />
+              <div className="sticky top-32">
+                <TOC />
               </div>
             </aside>
             
@@ -164,7 +157,7 @@ export default function App() {
               </div>
 
               <div id="pretraining" className="scroll-mt-32">
-                <Distributions onInViewChange={setDistro} />
+                <Distributions />
               </div>
 
               <div id="experiments" className="scroll-mt-32">
@@ -186,12 +179,8 @@ export default function App() {
               <Citation />
             </main>
 
-            {/* Right spacer — hosts the dataset detail panel over the distributions section */}
-            <div className="w-64 shrink-0 hidden xl:block self-stretch ml-16">
-              <div className="sticky top-32">
-                <div id="distro-right-slot" className={`transition-opacity duration-300 ${distro ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} />
-              </div>
-            </div>
+            {/* Right spacer — keeps the main column centered within the wide layout */}
+            <div className="w-64 shrink-0 hidden xl:block self-stretch ml-16" />
           </div>
         </div>
       </div>
