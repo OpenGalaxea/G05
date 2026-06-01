@@ -411,7 +411,7 @@ export function Experiments() {
         </figcaption>
       </figure>
 
-      <FigureCard src="images/ppbench.png" caption="PP Bench results. Language-following rate (left) and task success rate (right) for G0.5 and π0.5 across zero-shot, 1H, 10H, and 50H post-training scales." />
+      <FigureCard src="images/ppbench.jpg" caption="PP Bench results. Language-following rate (left) and task success rate (right) for G0.5 and π0.5 across zero-shot, 1H, 10H, and 50H post-training scales." />
 
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
         Even <strong className="text-white font-medium">zero-shot</strong>, G0.5 follows instructions 65.6% of the time and completes 59.4% of tasks. Post-training scales both metrics (84.4% / 75.0% at 50H). Under the matched 50H setting, G0.5 still outperforms π0.5 by 15.6 points in language following and 9.4 points in task success — we attribute this to web-data co-training (open-vocabulary grounding) and R1 Lite pre-training (action priors).
