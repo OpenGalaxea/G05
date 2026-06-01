@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { Globe, FileText } from 'lucide-react';
 
 export function Hero() {
   return (
@@ -19,9 +20,30 @@ export function Hero() {
           </span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-neutral-400 font-light leading-[1.6] max-w-3xl mb-4">
+        <p className="text-xl md:text-2xl text-neutral-400 font-light leading-[1.6] max-w-3xl mb-8">
           A pretrained autoregressive Vision-Language-Action model in which a single transformer decoder emits both reasoning and action tokens under one objective — keeping the VLM the decision-maker, not just a context encoder.
         </p>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <a
+            href="https://galaxea-dynamics.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex items-center gap-2.5 rounded-full bg-brand-orange px-5 py-2.5 text-[15px] font-medium text-black transition-all hover:bg-brand-orange-light hover:shadow-[0_0_28px_rgba(250,115,23,0.35)]"
+          >
+            <Globe className="w-4 h-4" />
+            Official Website
+          </a>
+          <a
+            href="Galaxea_G0_5.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.03] px-5 py-2.5 text-[15px] font-medium text-neutral-200 transition-all hover:border-brand-orange/50 hover:text-white hover:bg-white/[0.06]"
+          >
+            <FileText className="w-4 h-4" />
+            Read the Paper
+          </a>
+        </div>
       </motion.div>
     </section>
   );
