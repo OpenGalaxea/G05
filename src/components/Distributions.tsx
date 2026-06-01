@@ -28,19 +28,6 @@ const EMB_RAW: Raw[] = [
   { name: 'Tianqin A2', hours: 9.76, desc: "Half-humanoid bimanual manipulator by TQ-Artisan (source spelling: Tianqing A2).", specs: ["TQ-Artisan (China)", "Half-humanoid", "2×7-DoF arms"] },
   { name: 'Alpha Bot 2', hours: 5.45, desc: "AI2 Robotics AlphaBot 2 wheeled half-humanoid service robot.", specs: ["AI2 Robotics (Shenzhen)", "Wheeled half-humanoid", "2×7-DoF arms + hands"] },
 ];
-// Pre-training hours (from g05_datasets.py).
-const DS_RAW: Raw[] = [
-  { name: 'Galaxea', hours: 10146.95, desc: "Galaxea AI in-house teleoperated mobile-manipulation data on R1 robots.", specs: ["Galaxea AI (in-house)", "Teleoperated manipulation", "R1 Lite / R1 Pro"] },
-  { name: 'AgiBot', hours: 2168.15, desc: "AgiBot World, a large-scale embodied-AI manipulation dataset.", specs: ["AgiBot / Zhiyuan", "1M+ trajectories", "AgiBot G1 humanoid"] },
-  { name: 'BEHAVIOR', hours: 1102.73, desc: "Stanford BEHAVIOR-1K simulation benchmark of everyday household activities.", specs: ["Stanford (OmniGibson)", "1,000 activities · 50 scenes", "Simulated"] },
-  { name: 'Bimanual YAM', hours: 567.25, desc: "Bimanual manipulation data on the I2RT YAM dual-arm setup.", specs: ["I2RT / community", "Dual 6-DoF YAM arms", "Scale unpublished"] },
-  { name: 'DROID', hours: 511.67, desc: "Large-scale in-the-wild Franka manipulation dataset from 13 institutions.", specs: ["Berkeley-led (13 orgs)", "76k traj · 86 tasks", "Franka Panda"] },
-  { name: 'RoboMIND', hours: 376.24, desc: "Multi-embodiment teleoperated manipulation benchmark.", specs: ["Peking Univ. + BAAI", "107k traj · 479 tasks", "Franka, Tiangong, UR5e…"] },
-  { name: 'RoboCOIN', hours: 235.74, desc: "Open-source multi-embodiment bimanual manipulation dataset.", specs: ["BAAI-led consortium", "180k+ demos · 421 tasks", "15 robot platforms"] },
-  { name: 'SO100', hours: 180.99, desc: "Community manipulation data collected on the SO-ARM100.", specs: ["LeRobot / community", "Open-source contributions", "SO-ARM100"] },
-  { name: 'BridgeData', hours: 105.17, desc: "Bridge / BridgeData V2, a WidowX tabletop manipulation dataset.", specs: ["UC Berkeley RAIL", "~60k traj · 24 scenes", "WidowX 250"] },
-  { name: 'LIBERO', hours: 11.83, desc: "LIBERO lifelong robot-learning simulation benchmark.", specs: ["UT Austin / Sony", "130 tasks · 4 suites", "Simulated Franka"] },
-];
 
 type Item = Raw & { pct: number; color: string };
 function prep(raw: Raw[]): { total: number; items: Item[] } {
@@ -114,48 +101,52 @@ function DonutCard({ title, subtitle, accent, items, active, setActive }: {
   const small = items.filter((x) => x.pct < 2);
   return (
     <div className="bg-[#111111] border border-white/5 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[90px] pointer-events-none" style={{ backgroundColor: `${accent}14` }} />
+      <div className="absolute top-0 right-0 w-80 h-80 rounded-full blur-[110px] pointer-events-none" style={{ backgroundColor: `${accent}14` }} />
       <h4 className="text-xl font-display font-medium text-white mb-1 tracking-tight">{title}</h4>
-      <p className="text-xs text-neutral-400 font-light leading-relaxed mb-6">{subtitle}</p>
+      <p className="text-sm text-neutral-400 font-light leading-relaxed mb-6">{subtitle}</p>
 
-      <div className="relative w-full h-72 mb-5">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={items} dataKey="hours" nameKey="name" cx="50%" cy="50%"
-              innerRadius={82} outerRadius={112} startAngle={90} endAngle={-270}
-              stroke="none" isAnimationActive={false}
-              onMouseEnter={(_: any, i: number) => setActive(i)}
-              onClick={(_: any, i: number) => setActive(i)}
-            >
-              {items.map((it, i) => (
-                <Cell key={i} fill={it.color} opacity={active === i ? 1 : 0.4}
-                  stroke={active === i ? it.color : 'none'} strokeWidth={active === i ? 2 : 0}
-                  style={{ filter: active === i ? `drop-shadow(0 0 6px ${it.color})` : 'none', cursor: 'pointer', transition: 'opacity .2s' }} />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center px-8">
-          <span className="text-3xl font-display font-bold text-white leading-none">{fmtP(a.pct)}%</span>
-          <span className="text-[12px] font-mono mt-1.5 leading-tight" style={{ color: a.color }}>{a.name}</span>
-          <span className="text-[10px] text-neutral-500 font-mono mt-1">{fmtH(a.hours)} h</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
+        {/* Donut */}
+        <div className="relative w-full h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={items} dataKey="hours" nameKey="name" cx="50%" cy="50%"
+                innerRadius={92} outerRadius={128} startAngle={90} endAngle={-270}
+                stroke="none" isAnimationActive={false}
+                onMouseEnter={(_: any, i: number) => setActive(i)}
+                onClick={(_: any, i: number) => setActive(i)}
+              >
+                {items.map((it, i) => (
+                  <Cell key={i} fill={it.color} opacity={active === i ? 1 : 0.4}
+                    stroke={active === i ? it.color : 'none'} strokeWidth={active === i ? 2 : 0}
+                    style={{ filter: active === i ? `drop-shadow(0 0 6px ${it.color})` : 'none', cursor: 'pointer', transition: 'opacity .2s' }} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center px-10">
+            <span className="text-4xl font-display font-bold text-white leading-none">{fmtP(a.pct)}%</span>
+            <span className="text-[13px] font-mono mt-2 leading-tight" style={{ color: a.color }}>{a.name}</span>
+            <span className="text-[11px] text-neutral-500 font-mono mt-1">{fmtH(a.hours)} h</span>
+          </div>
+        </div>
+
+        {/* Legend */}
+        <div className="flex flex-col gap-0.5 max-h-[320px] overflow-y-auto pr-1">
+          {items.map((it, i) => (
+            <button key={i} onMouseEnter={() => setActive(i)} onClick={() => setActive(i)}
+              className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-left transition-colors ${active === i ? 'bg-white/5' : 'hover:bg-white/[0.03]'}`}>
+              <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: it.color, opacity: active === i ? 1 : 0.65 }} />
+              <span className={`text-[13px] font-mono flex-1 truncate ${active === i ? 'text-white' : 'text-neutral-400'}`}>{it.name}</span>
+              <span className={`text-[13px] font-mono tabular-nums ${active === i ? 'text-white' : 'text-neutral-500'}`}>{fmtP(it.pct)}%</span>
+              <span className="text-[12px] font-mono tabular-nums text-neutral-600 w-16 text-right">{fmtH(it.hours)} h</span>
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="flex flex-col gap-0.5 max-h-[240px] overflow-y-auto pr-1">
-        {items.map((it, i) => (
-          <button key={i} onMouseEnter={() => setActive(i)} onClick={() => setActive(i)}
-            className={`flex items-center gap-2.5 px-2 py-1 rounded-md text-left transition-colors ${active === i ? 'bg-white/5' : 'hover:bg-white/[0.03]'}`}>
-            <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: it.color, opacity: active === i ? 1 : 0.65 }} />
-            <span className={`text-[12px] font-mono flex-1 truncate ${active === i ? 'text-white' : 'text-neutral-400'}`}>{it.name}</span>
-            <span className={`text-[12px] font-mono tabular-nums ${active === i ? 'text-white' : 'text-neutral-500'}`}>{fmtP(it.pct)}%</span>
-            <span className="text-[11px] font-mono tabular-nums text-neutral-600 w-16 text-right hidden sm:inline">{fmtH(it.hours)} h</span>
-          </button>
-        ))}
-      </div>
-
-      <p className="text-[11px] text-neutral-500 font-light mt-4 pt-3 border-t border-white/5">
+      <p className="text-[12px] text-neutral-500 font-light mt-6 pt-4 border-t border-white/5">
         {items.length} entries · {fmtH(items.reduce((s, x) => s + x.hours, 0))} h · {small.length} below 2% ({small.reduce((s, x) => s + x.pct, 0).toFixed(1)}% combined)
       </p>
     </div>
@@ -164,9 +155,7 @@ function DonutCard({ title, subtitle, accent, items, active, setActive }: {
 
 export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean) => void }) {
   const emb = prep(EMB_RAW);
-  const ds = prep(DS_RAW);
   const [ea, setEa] = useState(0);
-  const [da, setDa] = useState(0);
   const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLElement | null>(null);
 
@@ -183,7 +172,6 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
   }, [onInViewChange]);
 
   const leftSlot = mounted ? document.getElementById('distro-left-slot') : null;
-  const rightSlot = mounted ? document.getElementById('distro-right-slot') : null;
 
   return (
     <section ref={ref} className="w-full">
@@ -196,7 +184,7 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
           An automated labeling pipeline turns raw episodes into multi-granularity annotations: rule-based segmentation plus multimodal APIs (Gemini 3, Doubao Seed 2.0 Pro) produce action hints and atomic/episode instructions, foundation models with SAM3 tracking generate per-frame bounding boxes, and forward kinematics projects bimanual end-effector traces onto the image plane. To retain general language ability we co-train with roughly <strong className="text-white font-medium">100M vision–language samples</strong> (generic + embodied VQA) at a 1:4 VQA-to-action ratio, all under the same next-token objective. Each robot sample is assigned one of eight CoT formats by weighted sampling, with subtask-text weighted most heavily.
         </p>
         <p>
-          The breakdown below shows how the corpus is composed by robot embodiment (left) and by source dataset (right). <span className="text-brand-orange font-medium">Click or hover</span> a slice or legend row; the detail appears in the page margins on either side.
+          The breakdown below shows how the corpus is composed by robot embodiment. <span className="text-brand-orange font-medium">Click or hover</span> a slice or legend row to inspect each platform's share — its full detail appears in the page margin alongside.
         </p>
       </div>
 
@@ -209,9 +197,8 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
         </figcaption>
       </figure>
 
-      <div id="distribution-data" className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 scroll-mt-32">
+      <div id="distribution-data" className="mb-12 scroll-mt-32">
         <DonutCard title="Embodiments Distribution" subtitle="Pre-training hours by physical robot embodiment." accent="#FF8A1E" items={emb.items} active={ea} setActive={setEa} />
-        <DonutCard title="Datasets Distribution" subtitle="Pre-training hours by source dataset." accent="#4B6B88" items={ds.items} active={da} setActive={setDa} />
       </div>
 
       <p className="text-sm text-neutral-500 font-light leading-relaxed mb-12 border-l-2 border-white/10 pl-4">
@@ -228,7 +215,6 @@ export function Distributions({ onInViewChange }: { onInViewChange?: (v: boolean
       </figure>
 
       {leftSlot && createPortal(<DetailPanel item={emb.items[ea]} rank={ea + 1} count={emb.items.length} label="Embodiment" />, leftSlot)}
-      {rightSlot && createPortal(<DetailPanel item={ds.items[da]} rank={da + 1} count={ds.items.length} label="Source dataset" />, rightSlot)}
     </section>
   );
 }
