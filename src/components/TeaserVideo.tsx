@@ -10,11 +10,13 @@ export function TeaserVideo() {
     >
       <video
         src="videos/header.mp4"
+        poster="videos/header.jpg"
         className="w-full h-auto aspect-[21/9] object-cover"
         autoPlay
         loop
         muted
         playsInline
+        preload="auto"
       />
       
       {/* Subtle Video Overlay */}
