@@ -15,7 +15,7 @@ export function InteractiveDiagram() {
       <figure className="my-12">
         <div className="bg-white rounded-2xl p-3 md:p-4 border border-white/10 shadow-2xl">
           <img
-            src="images/teaser.png"
+            src="images/teaser.jpg"
             alt="G0.5 operation interface: interleaved chain-of-thought and action tokens"
             className="w-full h-auto rounded-lg select-none pointer-events-none"
             referrerPolicy="no-referrer"
@@ -30,7 +30,7 @@ export function InteractiveDiagram() {
       <figure className="my-12">
         <div className="bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
           <img
-            src="images/token_template.png"
+            src="images/token_template.svg"
             alt="G0.5 token sequence template: conditioning and generative segments"
             className="w-full h-auto rounded-lg select-none pointer-events-none"
             referrerPolicy="no-referrer"

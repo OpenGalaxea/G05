@@ -132,22 +132,6 @@ const contextRows = [
   ['Language Following Rate', '84.4%', '85.9%', '98.4%'],
   ['Task Success Rate', '75.0%', '76.6%', '84.4%'],
 ];
-// Zero-shot probe of action head (AR vs FM) and CoT (Table 6).
-// PP Bench rows are % over 64 rollouts; long-horizon tasks are raw count out of n=5.
-const probeRows = [
-  ['PP Bench', 'AR, no CoT', '59.4', '–', '65.6'],
-  ['PP Bench', 'AR, CoT', '60.9', '–', '67.2'],
-  ['PP Bench', 'FM, no CoT', '54.7', '–', '59.4'],
-  ['PP Bench', 'FM, CoT', '56.3', '–', '60.9'],
-  ['Air Fryer', 'AR, no CoT', '1/5', '2.4', '36'],
-  ['Air Fryer', 'AR, CoT', '3/5', '3.8', '72'],
-  ['Air Fryer', 'FM, no CoT', '1/5', '2.1', '32'],
-  ['Air Fryer', 'FM, CoT', '1/5', '2.7', '48'],
-  ['Cook Bacon', 'AR, no CoT', '0/5', '1.5', '24'],
-  ['Cook Bacon', 'AR, CoT', '2/5', '3.4', '64'],
-  ['Cook Bacon', 'FM, no CoT', '0/5', '1.2', '20'],
-  ['Cook Bacon', 'FM, CoT', '1/5', '2.0', '44'],
-];
 
 // ---------------------------------------------------------------------------
 // Reusable pieces
@@ -446,8 +430,6 @@ export function Experiments() {
       </p>
 
       <FigureCard src="images/cot_head_long_horizon.png" caption="CoT × action-head probe on the two zero-shot long-horizon tasks. Progress score (0–5, left) and language-following rate (right) across the four decoder × CoT cells; AR+CoT clearly leads on both Air Fryer and Cook Bacon." />
-
-      <DataTable headers={['Task', 'Mode', 'Success ↑', 'Stage ↑', 'LF ↑']} rows={probeRows} highlightLast={false} />
 
       <Finding title="Finding 1 — CoT gain scales with task horizon">
         Enabling CoT barely moves AR success on single-stage PP Bench (+1.5 points; each cell shifts by at most one rollout), but on the five-stage long-horizon tasks the picture changes: AR goes from 1/5 to 3/5 on Air Fryer and from 0/5 to 2/5 on Bacon, with the per-stage process score and language-following rate rising in step. CoT helps where the task offers structure to decompose — and Air Fryer and Bacon are household scenes that do not appear in pre-training, so the policy reaches them by decomposition without any retraining.
