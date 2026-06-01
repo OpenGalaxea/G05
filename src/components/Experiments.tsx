@@ -28,6 +28,61 @@ const behaviorScore = [
   { name: 'G0.5 (1 ep)', value: 0.2904, color: 'url(#expOurs)' },
   { name: 'G0.5 (4 ep)', value: 0.3136, color: 'url(#expOurs)' },
 ];
+// BEHAVIOR-1K per-task breakdown (Table 6) — Task Success Score per task.
+// Columns: RLC (1st, 4 ckpt), Comet (2nd), π0.5 (4 ep), G0.5 (1 ep), G0.5 (4 ep).
+const behaviorTaskRows = [
+  ['assembling gift baskets', '0.2125', '0.0000', '0.2312', '0.5188', '0.4938'],
+  ['attach camera to tripod', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000'],
+  ['boxing books for storage', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000'],
+  ['bringing in wood', '0.0667', '0.5000', '0.1667', '0.3333', '0.3500'],
+  ['bringing water', '0.2667', '0.9000', '0.6500', '0.8333', '0.7000'],
+  ['can meat', '0.0000', '0.0000', '0.0333', '0.0111', '0.0444'],
+  ['canning food', '0.0100', '0.0000', '0.0550', '0.0800', '0.1100'],
+  ['carrying in groceries', '0.1500', '0.0000', '0.1750', '0.0750', '0.1500'],
+  ['chop an onion', '0.3000', '0.0000', '0.1750', '0.4125', '0.4000'],
+  ['chopping wood', '0.1000', '0.0000', '0.0875', '0.2375', '0.2000'],
+  ['clean a patio', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000'],
+  ['clean a trumpet', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000'],
+  ['clean boxing gloves', '0.2000', '0.0000', '0.0000', '0.2250', '0.1750'],
+  ['clean desk', '0.1273', '0.0000', '0.2227', '0.2864', '0.2591'],
+  ['clean plates and food', '0.1857', '0.0000', '0.3857', '0.1786', '0.1929'],
+  ['clear food to fridge', '0.0800', '0.0000', '0.0800', '0.1800', '0.2700'],
+  ['collect childrens toys', '0.4333', '0.0000', '0.4214', '0.5857', '0.5929'],
+  ['cook bacon', '0.7571', '0.0000', '0.4214', '0.0714', '0.3214'],
+  ['cook cabbage', '0.0000', '0.0000', '0.0500', '0.1500', '0.2000'],
+  ['cook hot dogs', '0.8500', '1.0000', '0.9250', '0.4500', '0.9000'],
+  ['freeze pies', '0.0143', '0.1571', '0.1357', '0.0571', '0.0429'],
+  ['get organized for work', '0.0200', '0.0000', '0.0200', '0.1050', '0.1100'],
+  ['hanging pictures', '0.0000', '0.2000', '0.0000', '0.0000', '0.0000'],
+  ['hiding Easter eggs', '0.1444', '0.2444', '0.0778', '0.0500', '0.0500'],
+  ['loading the car', '0.2000', '0.0000', '0.0000', '0.2333', '0.2833'],
+  ['make microwave popcorn', '0.9000', '0.7000', '0.9500', '0.1500', '0.5500'],
+  ['make pizza', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000'],
+  ['move boxes to storage', '0.6500', '1.0000', '0.2000', '0.6250', '0.5500'],
+  ['outfit basic toolbox', '0.2571', '0.1000', '0.3429', '0.1429', '0.2500'],
+  ['pick up toys', '0.3000', '0.0000', '0.1833', '0.3167', '0.4083'],
+  ['pick up trash', '0.6667', '0.7667', '0.5500', '0.8167', '0.8500'],
+  ['prepare lunch box', '0.5167', '0.0000', '0.5417', '0.5667', '0.5667'],
+  ['put away Halloween decorations', '0.2000', '0.5000', '0.3714', '0.4857', '0.5286'],
+  ['put dishes away', '0.2714', '0.0000', '0.5250', '0.1393', '0.2464'],
+  ['put shoes on rack', '0.5000', '0.5400', '0.3650', '0.6450', '0.5650'],
+  ['put up Christmas decorations', '0.4333', '0.0000', '0.5611', '0.4667', '0.3889'],
+  ['rearrange kitchen furniture', '0.3000', '0.3750', '0.3875', '0.3500', '0.3625'],
+  ['set up coffee station', '0.1500', '0.2167', '0.2833', '0.2500', '0.1917'],
+  ['setting mousetraps', '0.3333', '0.0000', '0.1083', '0.5083', '0.5667'],
+  ['setting the fire', '0.3250', '0.2000', '0.0750', '0.3125', '0.1250'],
+  ['slicing vegetables', '0.1889', '0.0000', '0.2278', '0.4444', '0.2611'],
+  ['sorting household items', '0.0625', '0.0000', '0.1938', '0.1437', '0.2062'],
+  ['sorting vegetables', '0.4769', '0.0000', '0.6000', '0.5231', '0.6231'],
+  ['spraying for bugs', '0.2500', '0.1000', '0.1000', '0.2000', '0.1500'],
+  ['spraying fruit trees', '0.3000', '0.3500', '0.2000', '0.1250', '0.1500'],
+  ['storing food', '0.3750', '0.0000', '0.5750', '0.4938', '0.6625'],
+  ['tidying bedroom', '0.4000', '0.0000', '0.3500', '0.5667', '0.6167'],
+  ['turning on radio', '0.6000', '1.0000', '0.1500', '0.3000', '0.0500'],
+  ['wash a baseball cap', '0.4500', '0.3000', '0.6000', '0.6500', '0.7500'],
+  ['wash dog toys', '0.0000', '0.0000', '0.3750', '0.2250', '0.2167'],
+  ['Overall', '0.2605', '0.1830', '0.2626', '0.2904', '0.3136'],
+];
 const realTasks = [
   { src: 'images/exp/r1lite_fold_towel.jpg', label: 'R1 Lite · Folding Towel' },
   { src: 'images/exp/r1lite_fold_carton.jpg', label: 'R1 Lite · Folding Carton' },
@@ -147,14 +202,14 @@ function MetricBar({ title, data, unit = '', domain, fmt }: { title: string; dat
   );
 }
 
-function DataTable({ headers, rows, highlightLast = true, highlightCol }: { headers: string[]; rows: string[][]; highlightLast?: boolean; highlightCol?: number }) {
+function DataTable({ headers, rows, highlightLast = true, highlightCol, scroll = false }: { headers: string[]; rows: string[][]; highlightLast?: boolean; highlightCol?: number; scroll?: boolean }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#111111] shadow-2xl my-8">
+    <div className={`overflow-x-auto rounded-2xl border border-white/10 bg-[#111111] shadow-2xl my-8 ${scroll ? 'max-h-[560px] overflow-y-auto' : ''}`}>
       <table className="w-full text-sm border-collapse">
-        <thead>
+        <thead className={scroll ? 'sticky top-0 z-10' : ''}>
           <tr className="border-b border-white/10">
             {headers.map((h, i) => (
-              <th key={i} className={`px-4 py-3 font-mono text-[12px] uppercase tracking-wider text-neutral-400 font-medium ${i === 0 ? 'text-left' : 'text-right'}`}>{h}</th>
+              <th key={i} className={`px-4 py-3 font-mono text-[12px] uppercase tracking-wider text-neutral-400 font-medium ${i === 0 ? 'text-left' : 'text-right'} ${scroll ? 'bg-[#161616]' : ''}`}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -307,9 +362,26 @@ export function Experiments() {
       <Finding title="Single-policy generalization">
         Across all 50 tasks, even one-epoch G0.5 beats the first-place challenge solution (RLC, 0.2605) by +11.5% with a single checkpoint; at four epochs the margin grows to +20.4%, where the winner relied on a set of four. G0.5 leads on 29 of 50 tasks (58%); π0.5 leads on 15 (30%), with 6 comparable.
       </Finding>
-      <Finding title="What the pre-training shaped">
-        Structured action decomposition decouples navigation from manipulation, and visual-memory pre-training boosts navigation-heavy long-horizon tasks. The remaining gap is distributional — appliance/cabinet-interaction skills (e.g. microwave popcorn) are underrepresented in pre-training, pointing to a clear data path forward.
+      <Finding title="Structured action decomposition helps mobile manipulation">
+        Decomposing the action space into independent motion parts — left arm, right arm, lower body — decouples navigation from manipulation in token space. The payoff shows on long-horizon tasks that interleave the two: G0.5 beats π0.5 by <strong className="text-white">+0.35</strong> on moving boxes to storage, <strong className="text-white">+0.30</strong> on picking up trash, and <strong className="text-white">+0.28</strong> on loading the car.
       </Finding>
+      <Finding title="Pre-training distribution shapes downstream strengths">
+        G0.5's real-robot pre-training is dominated by pick-and-place, and it shows: it leads on open-space placement tasks like setting mousetraps (<strong className="text-white">+0.46</strong>), assembling gift baskets (<strong className="text-white">+0.26</strong>), and putting shoes on rack (<strong className="text-white">+0.20</strong>). The flip side is appliance and cabinet interaction — π0.5 still wins on make microwave popcorn (0.95 vs 0.55) and cook hot dogs (0.93 vs 0.90) — skills underrepresented in pre-training. But the gap narrows fast with more training: cook hot dogs climbs from 0.45 (1 epoch) to 0.90 (4 epochs). The remaining gap is a data path, not an architecture one.
+      </Finding>
+      <Finding title="Visual-memory pre-training carries over to single-frame inference">
+        Even though post-training uses single-frame input for a fair comparison, the factorized spatial–temporal attention learned in pre-training leaves single-frame representations that are more spatially informed. The gains concentrate on navigation-intensive tasks that demand tracking what moved where — moving boxes to storage, loading the car, bringing in wood, and tidying bedroom.
+      </Finding>
+
+      <h4 className="text-lg font-medium text-white/90 mt-12 mb-2">Per-task breakdown <span className="text-neutral-500 font-light text-sm">— Task Success Score across all 50 BEHAVIOR-1K tasks</span></h4>
+      <DataTable
+        headers={['Task', 'RLC (4 ckpt)', 'Comet', 'π0.5 (4 ep)', 'G0.5 (1 ep)', 'G0.5 (4 ep)']}
+        rows={behaviorTaskRows}
+        highlightCol={5}
+        scroll
+      />
+      <p className="-mt-4 mb-2 text-sm text-neutral-500 font-light leading-relaxed">
+        Task Success Score (task progress, partial credit) per task. RLC is the first-place challenge solution and uses a set of four checkpoints; π0.5 (4 epochs) and G0.5 each use a single checkpoint, averaged over two eval runs. The final <span className="text-brand-orange">Overall</span> row is the challenge ranking metric. Scroll to see all 50 tasks.
+      </p>
 
       {/* 5.4 Real-world fine-tuning ------------------------------------------------ */}
       <h3 id="real-world" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.4. Real-World Fine-Tuning</h3>
