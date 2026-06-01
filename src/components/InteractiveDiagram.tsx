@@ -46,7 +46,7 @@ export function InteractiveDiagram() {
         <button
           type="button"
           onClick={() => setZoom('images/token_template.svg')}
-          className="group/zoom relative block w-full bg-[#0d0d0d] rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl cursor-zoom-in hover:border-brand-orange/40 transition-colors"
+          className="group/zoom relative block w-full bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl cursor-zoom-in hover:border-brand-orange/40 transition-colors"
           aria-label="Enlarge the token sequence template"
         >
           <img
@@ -110,30 +110,33 @@ export function InteractiveDiagram() {
       </p>
     </section>
 
-    {/* Click-to-enlarge lightbox — for reading the dense token-template figure */}
+    {/* Click-to-enlarge lightbox — large & scrollable so the dense template reads clearly */}
     <AnimatePresence>
       {zoom && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8"
+          onClick={() => setZoom(null)}
+          className="fixed inset-0 z-[100] overflow-auto bg-black/90 backdrop-blur-md"
         >
-          <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={() => setZoom(null)} />
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 240, damping: 26 }}
-            className="relative max-w-[96vw] max-h-[92vh] overflow-auto rounded-2xl"
-            onClick={() => setZoom(null)}
-          >
-            <img src={zoom} alt="Enlarged figure" className="w-auto max-w-none h-auto min-h-[88vh] cursor-zoom-out select-none" referrerPolicy="no-referrer" />
-          </motion.div>
+          <div className="min-h-full flex items-start justify-center p-4 sm:p-10">
+            <motion.img
+              src={zoom}
+              alt="Enlarged figure"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 240, damping: 26 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-[min(1400px,95vw)] h-auto rounded-2xl bg-white shadow-[0_30px_90px_-20px_rgba(0,0,0,0.9)] select-none"
+              referrerPolicy="no-referrer"
+            />
+          </div>
           <button
             onClick={() => setZoom(null)}
             aria-label="Close"
-            className="fixed top-5 right-5 w-10 h-10 rounded-full bg-[#111111] border border-white/15 text-neutral-300 hover:text-white hover:border-brand-orange/50 flex items-center justify-center shadow-xl transition-colors"
+            className="fixed top-5 right-5 w-10 h-10 rounded-full bg-[#111111] border border-white/15 text-neutral-300 hover:text-white hover:border-brand-orange/50 flex items-center justify-center shadow-xl transition-colors z-10"
           >
             <X className="w-5 h-5" />
           </button>
