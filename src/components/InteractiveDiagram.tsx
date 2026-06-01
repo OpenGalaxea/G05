@@ -1,5 +1,20 @@
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { X, ZoomIn } from 'lucide-react';
+
 export function InteractiveDiagram() {
+  const [zoom, setZoom] = useState<string | null>(null);
+  useEffect(() => {
+    if (!zoom) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setZoom(null); };
+    window.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, [zoom]);
+
   return (
+    <>
     <section className="w-full">
       <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">3. G0.5 Model Design</h2>
       <div className="flex flex-col gap-6 text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">
@@ -28,14 +43,22 @@ export function InteractiveDiagram() {
 
       {/* Token sequence template */}
       <figure className="my-12">
-        <div className="bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
+        <button
+          type="button"
+          onClick={() => setZoom('images/token_template.svg')}
+          className="group/zoom relative block w-full bg-[#0d0d0d] rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl cursor-zoom-in hover:border-brand-orange/40 transition-colors"
+          aria-label="Enlarge the token sequence template"
+        >
           <img
             src="images/token_template.svg"
             alt="G0.5 token sequence template: conditioning and generative segments"
-            className="w-full h-auto rounded-lg select-none pointer-events-none"
+            className="w-full h-auto rounded-lg select-none"
             referrerPolicy="no-referrer"
           />
-        </div>
+          <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-mono text-neutral-300 opacity-0 group-hover/zoom:opacity-100 transition-opacity">
+            <ZoomIn className="w-3.5 h-3.5" /> click to enlarge
+          </span>
+        </button>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
           Figure 2: Token sequence template. All inputs and outputs serialize into a single autoregressive sequence: a conditioning segment (multi-view RGB, embodiment id, task instruction, and proprioceptive state — in user-side chat tokens) and a generative segment, on which the next-token cross-entropy loss is applied. The generative segment composes an optional chain-of-thought span — any subset of four self-describing reasoning targets (Subtask:, BBox:, Trace:, ActionHint:) — followed by the action codes, which expand into R residual rounds of DoF-group markers, each followed by 8 action codes.
         </figcaption>
@@ -86,5 +109,37 @@ export function InteractiveDiagram() {
         Complex mobile manipulation is non-Markovian: single-frame observations fail under temporary occlusions and lack the context needed to recognize failures and retry. Naively stacking historical vision tokens scales quadratically and invites error accumulation. Following π0.7 and MEM, G0.5 inserts factorized spatial and temporal attention modules every four layers of the Vision Transformer, sequentially mixing information across time steps and spatial patches. To bound latency, all historical tokens are discarded at the final layer, and all history frames are stochastically dropped during training to prevent overfitting; continuous state embeddings replace discrete text tokenizers so proprioception stays synchronized with the corresponding visual frames.
       </p>
     </section>
+
+    {/* Click-to-enlarge lightbox — for reading the dense token-template figure */}
+    <AnimatePresence>
+      {zoom && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8"
+        >
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={() => setZoom(null)} />
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 240, damping: 26 }}
+            className="relative max-w-[96vw] max-h-[92vh] overflow-auto rounded-2xl"
+            onClick={() => setZoom(null)}
+          >
+            <img src={zoom} alt="Enlarged figure" className="w-auto max-w-none h-auto min-h-[88vh] cursor-zoom-out select-none" referrerPolicy="no-referrer" />
+          </motion.div>
+          <button
+            onClick={() => setZoom(null)}
+            aria-label="Close"
+            className="fixed top-5 right-5 w-10 h-10 rounded-full bg-[#111111] border border-white/15 text-neutral-300 hover:text-white hover:border-brand-orange/50 flex items-center justify-center shadow-xl transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 }
