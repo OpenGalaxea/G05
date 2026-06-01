@@ -26,18 +26,18 @@ export function InteractiveDiagram() {
         </figcaption>
       </figure>
 
-      {/* Token sequence schematic */}
+      {/* Token sequence template */}
       <figure className="my-12">
         <div className="bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
           <img
-            src="images/method.png"
-            alt="G0.5 token sequence: conditioning and generative segments"
+            src="images/token_template.png"
+            alt="G0.5 token sequence template: conditioning and generative segments"
             className="w-full h-auto rounded-lg select-none pointer-events-none"
             referrerPolicy="no-referrer"
           />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Figure 2: All inputs and outputs serialize into one sequence — a conditioning segment (multi-view RGB, embodiment, task, state) and a generative segment (optional CoT trace, then active-DoF action codes). A single next-token cross-entropy loss is applied to the generative segment only.
+          Figure 2: Token sequence template. All inputs and outputs serialize into a single autoregressive sequence: a conditioning segment (multi-view RGB, embodiment id, task instruction, and proprioceptive state — in user-side chat tokens) and a generative segment, on which the next-token cross-entropy loss is applied. The generative segment composes an optional chain-of-thought span — any subset of four self-describing reasoning targets (Subtask:, BBox:, Trace:, ActionHint:) — followed by the action codes, which expand into R residual rounds of DoF-group markers, each followed by 8 action codes.
         </figcaption>
       </figure>
 
