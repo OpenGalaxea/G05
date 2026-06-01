@@ -12,10 +12,15 @@ export function Distributions() {
       </div>
 
       <figure className="mb-12">
-        <div className="bg-white rounded-2xl p-4 md:p-6 border border-white/10 shadow-2xl">
-          <img src="images/embodiments.png" alt="Robot platforms represented in pre-training" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
+        <div className="relative">
+          {/* soft brand glow so the light panel reads as intentional on the dark page */}
+          <div className="absolute -inset-4 rounded-[2.5rem] bg-brand-orange/[0.06] blur-3xl pointer-events-none" />
+          {/* white studio panel — kept white so the white robots blend in with no fringing */}
+          <div className="relative bg-white rounded-3xl p-6 md:p-10 ring-1 ring-black/10 shadow-[0_30px_90px_-30px_rgba(0,0,0,0.9)]">
+            <img src="images/embodiments.png" alt="Robot platforms represented in pre-training" loading="lazy" className="w-full h-auto select-none pointer-events-none" referrerPolicy="no-referrer" />
+          </div>
         </div>
-        <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
+        <figcaption className="mt-4 text-sm font-mono text-neutral-500 text-center tracking-wide">
           The 14 real and simulated robot platforms that make up the pre-training mixture, from single arms to bimanual mobile manipulators and full-size humanoids.
         </figcaption>
       </figure>
