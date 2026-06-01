@@ -28,7 +28,7 @@ export function InteractiveDiagram() {
 
       {/* Token sequence template */}
       <figure className="my-12">
-        <div className="bg-[#0d0d0d] rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
+        <div className="bg-white rounded-2xl p-5 md:p-8 border border-white/10 shadow-2xl">
           <img
             src="images/token_template.svg"
             alt="G0.5 token sequence template: conditioning and generative segments"
