@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Globe, FileText } from 'lucide-react';
+import { Globe, FileText, Users } from 'lucide-react';
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -42,6 +42,15 @@ export function Header() {
             <FileText className="w-4 h-4" />
             <span className="hidden sm:inline">Read the Paper</span>
             <span className="sm:hidden">Paper</span>
+          </a>
+          <a
+            href="https://galaxea.zhiye.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-3.5 sm:px-4 py-2 text-[13px] sm:text-sm font-medium text-neutral-200 transition-all hover:border-brand-orange/50 hover:text-white hover:bg-white/[0.06]"
+          >
+            <Users className="w-4 h-4" />
+            Join Us
           </a>
         </nav>
       </div>
