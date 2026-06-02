@@ -288,12 +288,12 @@ export function Experiments() {
       {/* 5.1 DROID zero-shot ------------------------------------------------------- */}
       <h3 id="droid-zeroshot" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">5.1. DROID Zero-shot Evaluation</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
-        To test out-of-the-box generalization, we deploy G0.5 on the <strong className="text-white font-medium">DROID</strong> platform — a Franka Research 3 arm with a Robotiq 2F-85 gripper — without any fine-tuning on this robot, relying solely on natural-language instructions at inference. We evaluate 10 tabletop tasks across 8 scene setups, spanning object placement, colour-conditioned selection, small-aperture insertion, deformable manipulation, spatial displacement, and multi-step sequencing, and compare against <span className="font-mono text-neutral-200">π0.5-DROID</span> and <span className="font-mono text-neutral-200">MolmoAct2-DROID</span>.
+        To test out-of-the-box generalization, we deploy G0.5 on the <strong className="text-white font-medium">DROID</strong> platform — a Franka Research 3 arm with a Robotiq 2F-85 gripper — without any fine-tuning on this robot, relying solely on natural-language instructions at inference. We evaluate 10 tabletop tasks across 8 scene setups, spanning object placement, color-conditioned selection, small-aperture insertion, deformable manipulation, spatial displacement, and multi-step sequencing, and compare against <span className="font-mono text-neutral-200">π0.5-DROID</span> and <span className="font-mono text-neutral-200">MolmoAct2-DROID</span>.
       </p>
 
       <TaskGallery items={droidTasks} cols="md:grid-cols-4" />
       <p className="mt-4 mb-12 text-sm text-neutral-500 font-light leading-relaxed text-center">
-        DROID zero-shot evaluation tasks on a Franka Research 3 arm, covering placement, colour-conditioned selection, insertion, deformable manipulation, spatial displacement, and sequential execution.
+        DROID zero-shot evaluation tasks on a Franka Research 3 arm, covering placement, color-conditioned selection, insertion, deformable manipulation, spatial displacement, and sequential execution.
       </p>
 
       <div className="my-12">
@@ -301,7 +301,7 @@ export function Experiments() {
       </div>
 
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
-        G0.5 averages <strong className="text-white font-medium">82.5%</strong> success — 25.0 points above π0.5-DROID (57.5%) and 30.5 points above MolmoAct2-DROID (52.0%) — and outperforms both baselines on all 10 tasks. Gains are largest on tasks demanding precise object discrimination, colour-conditioned selection, and multi-step reasoning: most notably, MolmoAct2-DROID fails entirely on the sequential <em>insert-then-close-drawer</em> task, whereas G0.5 succeeds on over half its trials.
+        G0.5 averages <strong className="text-white font-medium">82.5%</strong> success — 25.0 points above π0.5-DROID (57.5%) and 30.5 points above MolmoAct2-DROID (52.0%) — and outperforms both baselines on all 10 tasks. Gains are largest on tasks demanding precise object discrimination, color-conditioned selection, and multi-step reasoning: most notably, MolmoAct2-DROID fails entirely on the sequential <em>insert-then-close-drawer</em> task, whereas G0.5 succeeds on over half its trials.
       </p>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-10">
         One identifiable weakness: the white semi-transparent drawer cabinet offers little visual contrast for localising the aperture, and G0.5 is more sensitive to this than π0.5-DROID. Adding high-contrast markers to the drawer lifts G0.5 to 100% on the towel-insertion task.
@@ -435,7 +435,7 @@ export function Experiments() {
         Enabling CoT barely moves AR success on single-stage PP Bench (+1.5 points; each cell shifts by at most one rollout), but on the five-stage long-horizon tasks the picture changes: AR goes from 1/5 to 3/5 on Air Fryer and from 0/5 to 2/5 on Bacon, with the per-stage process score and language-following rate rising in step. CoT helps where the task offers structure to decompose — and Air Fryer and Bacon are household scenes that do not appear in pre-training, so the policy reaches them by decomposition without any retraining.
       </Finding>
       <Finding title="Finding 2 — AR follows CoT more closely than the FM expert">
-        Under matched CoT, the AR head benefits more than the FM head: on Air Fryer, CoT lifts AR from 1/5 to 3/5 while FM stays at 1/5; Bacon shows the same ordering. The language-following rate echoes this gap (Air Fryer 72 vs 48; Bacon 64 vs 44). We <em>hypothesise</em> this reflects the decoding interface rather than the reasoning content: the AR action tokens are emitted in the same stream as the CoT and can attend to it directly, whereas the FM head conditions on a pooled summary of the hidden state.
+        Under matched CoT, the AR head benefits more than the FM head: on Air Fryer, CoT lifts AR from 1/5 to 3/5 while FM stays at 1/5; Bacon shows the same ordering. The language-following rate echoes this gap (Air Fryer 72 vs 48; Bacon 64 vs 44). We <em>hypothesize</em> this reflects the decoding interface rather than the reasoning content: the AR action tokens are emitted in the same stream as the CoT and can attend to it directly, whereas the FM head conditions on a pooled summary of the hidden state.
       </Finding>
     </section>
   );
