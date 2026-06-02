@@ -304,7 +304,7 @@ export function Experiments() {
         G0.5 averages <strong className="text-white font-medium">82.5%</strong> success — 25.0 points above π0.5-DROID (57.5%) and 30.5 points above MolmoAct2-DROID (52.0%) — and outperforms both baselines on all 10 tasks. Gains are largest on tasks demanding precise object discrimination, color-conditioned selection, and multi-step reasoning: most notably, MolmoAct2-DROID fails entirely on the sequential <em>insert-then-close-drawer</em> task, whereas G0.5 succeeds on over half its trials.
       </p>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-10">
-        One identifiable weakness: the white semi-transparent drawer cabinet offers little visual contrast for localising the aperture, and G0.5 is more sensitive to this than π0.5-DROID. Adding high-contrast markers to the drawer lifts G0.5 to 100% on the towel-insertion task.
+        One identifiable weakness: the white semi-transparent drawer cabinet offers little visual contrast for localizing the aperture, and G0.5 is more sensitive to this than π0.5-DROID. Adding high-contrast markers to the drawer lifts G0.5 to 100% on the towel-insertion task.
       </p>
 
       <FigureCard src="images/exp/droid_results.png" caption="Per-task success rate (%) on the DROID zero-shot benchmark for π0.5-DROID, MolmoAct2-DROID, and G0.5 across 10 manipulation tasks." />
