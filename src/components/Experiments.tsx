@@ -282,22 +282,22 @@ export function Experiments() {
     <section className="w-full">
       <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8 tracking-tight">5. Experiments</h2>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-12">
-        We evaluate G0.5 across seven settings that probe distinct facets of a general-purpose VLA: zero-shot deployment on an unseen robot, three standardized simulation suites, a long-horizon household challenge, real-world fine-tuning on two bimanual platforms, a language-following benchmark, and a controlled probe of the autoregressive interface itself.
+        We evaluate G0.5 across seven settings that probe distinct facets of a general-purpose VLA: DROID post-training with zero-shot transfer to an unseen environment and objects, three standardized simulation suites, a long-horizon household challenge, real-world fine-tuning on two bimanual platforms, a language-following benchmark, and a controlled probe of the autoregressive interface itself.
       </p>
 
       {/* 5.1 DROID zero-shot ------------------------------------------------------- */}
-      <h3 id="droid-zeroshot" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">5.1. DROID Zero-shot Evaluation</h3>
+      <h3 id="droid-zeroshot" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-16 tracking-tight scroll-mt-32">5.1. DROID Environment- &amp; Object-Level Zero-Shot Evaluation</h3>
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
-        To test out-of-the-box generalization, we deploy G0.5 on the <strong className="text-white font-medium">DROID</strong> platform — a Franka Research 3 arm with a Robotiq 2F-85 gripper — without any fine-tuning on this robot, relying solely on natural-language instructions at inference. We evaluate 10 tabletop tasks across 8 scene setups, spanning object placement, color-conditioned selection, small-aperture insertion, deformable manipulation, spatial displacement, and multi-step sequencing, and compare against <span className="font-mono text-neutral-200">π0.5-DROID</span> and <span className="font-mono text-neutral-200">MolmoAct2-DROID</span>.
+        We first post-train G0.5 on the DROID dataset and then deploy it on a <strong className="text-white font-medium">held-out DROID setup</strong> — a Franka Research 3 arm with a Robotiq 2F-85 gripper. No demonstrations from the physical evaluation environment, or involving the evaluation object instances, are included in either pre-training or post-training, so this measures environment- and object-level zero-shot generalization after DROID post-training rather than dataset-level zero-shot transfer. We evaluate 10 tabletop tasks across 8 held-out scene setups, spanning object placement, color-conditioned selection, small-aperture insertion, deformable manipulation, spatial displacement, and multi-step sequencing, and compare against <span className="font-mono text-neutral-200">π0.5-DROID</span> and <span className="font-mono text-neutral-200">MolmoAct2-DROID</span> — all trained on DROID data.
       </p>
 
       <TaskGallery items={droidTasks} cols="md:grid-cols-4" />
       <p className="mt-4 mb-12 text-sm text-neutral-500 font-light leading-relaxed text-center">
-        DROID zero-shot evaluation tasks on a Franka Research 3 arm, covering placement, color-conditioned selection, insertion, deformable manipulation, spatial displacement, and sequential execution.
+        DROID environment- and object-level zero-shot evaluation tasks on a Franka Research 3 arm: after DROID post-training, all scene setups and physical object instances are previously unseen. Tasks cover placement, color-conditioned selection, insertion, deformable manipulation, spatial displacement, and sequential execution.
       </p>
 
       <div className="my-12">
-        <MetricBar title="DROID Zero-Shot · Average Success Rate" data={droidSuccess} unit="%" domain={[0, 100]} />
+        <MetricBar title="DROID Env & Object Zero-Shot · Average Success Rate" data={droidSuccess} unit="%" domain={[0, 100]} />
       </div>
 
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
@@ -307,7 +307,7 @@ export function Experiments() {
         One identifiable weakness: the white semi-transparent drawer cabinet offers little visual contrast for localizing the aperture, and G0.5 is more sensitive to this than π0.5-DROID. Adding high-contrast markers to the drawer lifts G0.5 to 100% on the towel-insertion task.
       </p>
 
-      <FigureCard src="images/exp/droid_results.png" caption="Per-task success rate (%) on the DROID zero-shot benchmark for π0.5-DROID, MolmoAct2-DROID, and G0.5 across 10 manipulation tasks." />
+      <FigureCard src="images/exp/droid_results.png" caption="Per-task success rate (%) on the DROID environment- and object-level zero-shot evaluation for π0.5-DROID, MolmoAct2-DROID, and G0.5 across 10 manipulation tasks. All models are trained on DROID data, while the physical evaluation environment and object instances are held out." />
 
       {/* 5.2 Simulation benchmarks ------------------------------------------------ */}
       <h3 id="simulation" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.2. Simulation Benchmarks</h3>
@@ -411,7 +411,7 @@ export function Experiments() {
         </figcaption>
       </figure>
 
-      <FigureCard src="images/ppbench.jpg" caption="PP Bench results. Language-following rate (left) and task success rate (right) for G0.5 and π0.5 across zero-shot, 1H, 10H, and 50H post-training scales." />
+      <FigureCard src="images/ppbench.png" caption="PP Bench results. Language-following rate (left) and task success rate (right) for G0.5 and π0.5 across zero-shot, 1H, 10H, and 50H post-training scales." />
 
       <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
         Even <strong className="text-white font-medium">zero-shot</strong>, G0.5 follows instructions 65.6% of the time and completes 59.4% of tasks. Post-training scales both metrics (84.4% / 75.0% at 50H). Under the matched 50H setting, G0.5 still outperforms π0.5 by 15.6 points in language following and 9.4 points in task success — we attribute this to web-data co-training (open-vocabulary grounding) and R1 Lite pre-training (action priors).
@@ -437,6 +437,18 @@ export function Experiments() {
       <Finding title="Finding 2 — AR follows CoT more closely than the FM expert">
         Under matched CoT, the AR head benefits more than the FM head: on Air Fryer, CoT lifts AR from 1/5 to 3/5 while FM stays at 1/5; Bacon shows the same ordering. The language-following rate echoes this gap (Air Fryer 72 vs 48; Bacon 64 vs 44). We <em>hypothesize</em> this reflects the decoding interface rather than the reasoning content: the AR action tokens are emitted in the same stream as the CoT and can attend to it directly, whereas the FM head conditions on a pooled summary of the hidden state.
       </Finding>
+
+      {/* 5.7 RL fine-tuning with GRPO ---------------------------------------------- */}
+      <h3 id="rl-grpo" className="text-2xl md:text-3xl font-display font-medium text-white mb-6 mt-20 tracking-tight scroll-mt-32">5.7. G0.5 Fine-Tunes with RL Out of the Box</h3>
+      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-8">
+        An autoregressive policy emits actions as tokens, so it exposes <strong className="text-white font-medium">exact token-level log-probabilities</strong> — precisely the quantity that ratio-based RL algorithms consume. A flow-matching head offers no such likelihood and must be reformulated before the same algorithms apply. We test whether the autoregressive interface is the easier one to optimize with RL in a low-data regime where post-training gains come almost entirely from exploration: both the AR and FM policies are jointly post-trained with a <strong className="text-white font-medium">single demonstration per task</strong> on LIBERO, then four tasks with comparable initial success rates are fine-tuned with Group Relative Policy Optimization (GRPO). The AR policy samples actions with a temperature while retaining tractable log-probabilities; the FM policy requires an SDE reformulation of its denoising procedure, treating the denoising trajectory as a Markov process to approximate the policy log-probability.
+      </p>
+
+      <FigureCard src="images/exp/rl_grpo.png" caption="GRPO fine-tuning: AR vs. FM. Average success rate over four LIBERO tasks during GRPO fine-tuning from a single demonstration per task (mean ± std over seeds). Starting from comparable initial success rates, the AR policy converges faster, attains a higher final success rate, and shows lower run-to-run variance." />
+
+      <p className="text-lg md:text-xl text-neutral-300 font-light leading-[1.8] mb-6">
+        The AR policy converges substantially faster, reaches a higher final success rate, and trains more stably — with lower variance — than the FM policy. We hypothesize this advantage stems from the AR policy's native and direct likelihood parameterization, which makes policy probability ratios straightforward to compute. Applying ratio-based policy optimization to the FM policy instead requires an auxiliary stochastic reformulation, a discretization of the denoising dynamics, and additional noise-schedule choices — components that may introduce greater optimization sensitivity and gradient variance.
+      </p>
     </section>
   );
 }

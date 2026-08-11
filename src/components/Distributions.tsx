@@ -7,7 +7,10 @@ export function Distributions() {
           G0.5 is pre-trained in a single stage on a heterogeneous mixture of robot demonstrations and web-scale vision–language data. The robot portion covers <strong className="text-white font-medium">14 embodiments</strong> across real and simulated ontologies, all cast into a single 27-dimensional unified action space — partitioned as <code className="bg-surface/60 px-2 py-1 rounded-md text-brand-orange-light font-mono text-[15px] border border-white/10 mx-0.5">left_control(9) | left_gripper(1) | right_control(9) | right_gripper(1) | lower_body(7)</code> — so robots of differing morphology share one output head without per-robot adapters.
         </p>
         <p>
-          An automated labeling pipeline turns raw episodes into multi-granularity annotations: rule-based segmentation plus multimodal APIs (Gemini 3, Doubao Seed 2.0 Pro) produce action hints and atomic/episode instructions, foundation models with SAM3 tracking generate per-frame bounding boxes, and forward kinematics projects bimanual end-effector traces onto the image plane. To retain general language ability we co-train with roughly <strong className="text-white font-medium">100M vision–language samples</strong> (generic + embodied VQA) at a 1:4 VQA-to-action ratio, all under the same next-token objective. Each robot sample is assigned one of eight CoT formats by weighted sampling, with subtask-text weighted most heavily.
+          An automated labeling pipeline turns raw episodes into multi-granularity annotations: rule-based segmentation plus multimodal APIs (Gemini 3, Doubao Seed 2.0 Pro) produce action hints and atomic/episode instructions, foundation models with SAM3 tracking generate per-frame bounding boxes, and forward kinematics projects bimanual end-effector traces onto the image plane. To retain general language ability we co-train with a large-scale vision–language mixture spanning <strong className="text-white font-medium">generic web VQA, embodied VQA, and in-house annotations</strong>, combined with the robot data in an action-heavy mixture — all under the same next-token objective. Each robot sample is assigned one of eight CoT formats by weighted sampling, with subtask-text weighted most heavily.
+        </p>
+        <p>
+          DROID data are not part of this foundation pre-training mixture; for the evaluation in §5.1, the resulting model is subsequently post-trained on DROID data while excluding any demonstrations from the held-out evaluation environment and physical object instances.
         </p>
       </div>
 
@@ -26,7 +29,7 @@ export function Distributions() {
       </figure>
 
       <p className="text-sm text-neutral-500 font-light leading-relaxed mb-12 border-l-2 border-white/10 pl-4">
-        <span className="font-mono text-neutral-400">Recipe.</span> Trained with AdamW under a single cross-entropy objective (plus the auxiliary flow-matching loss) for ~120K steps. Observations are 6 frames sampled at 1 s over a 5 s window; 30% of memory frames are dropped as regularization for the visual-memory module.
+        <span className="font-mono text-neutral-400">Recipe.</span> Trained with AdamW under a single cross-entropy objective over the shared vocabulary — warmup, a constant phase, then cosine decay — with the vision tower unfrozen throughout, until convergence. Observations provide a sparse multi-second history including the current frame; historical frames are randomly dropped during training as regularization for the visual-memory module.
       </p>
 
       <figure className="mb-4">
@@ -34,7 +37,7 @@ export function Distributions() {
           <img src="images/data_analyze.png" alt="Top-50 action verbs and object nouns in the pre-training corpus" loading="lazy" className="w-full h-auto rounded-lg select-none pointer-events-none" referrerPolicy="no-referrer" />
         </div>
         <figcaption className="mt-3 text-sm font-mono text-neutral-500 text-center tracking-wide">
-          Top-50 action verbs and object nouns in the pre-training corpus (log scale). Both follow a long-tailed distribution — dominated by manipulation primitives (pick, place, move) and everyday household objects, with a diverse tail of rarer skills.
+          Share of occurrences (%) of the top action verbs and object nouns in the pre-training corpus (log scale, with a trailing Others bar). Both follow a long-tailed distribution — dominated by manipulation primitives (pick, place, move) and everyday household objects, with a diverse tail of rarer skills.
         </figcaption>
       </figure>
     </section>

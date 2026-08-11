@@ -13,9 +13,9 @@ export function Hero() {
         className="relative z-10 mt-4"
       >
         <h1 className="text-5xl md:text-[4rem] font-display font-medium text-white leading-[1.1] mb-8 tracking-tight">
-          Introducing G0.5: <br />
+          Introducing Galaxea G0.5: <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-brand-orange-light font-bold pb-2 inline-block">
-            One Autoregressive Stream for Reasoning and Action
+            One Autoregressive Stream for Robot Reasoning and Action
           </span>
         </h1>
 
