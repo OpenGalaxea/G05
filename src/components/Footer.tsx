@@ -25,7 +25,7 @@ export function Footer() {
           <h4 className="text-white font-medium mb-4">Research</h4>
           <ul className="flex flex-col gap-3 text-sm text-neutral-400">
             <li><a href="https://opengalaxea.github.io/G05/" className="hover:text-brand-orange flex items-center gap-1 transition-colors">G0.5 Project Page <ArrowUpRight size={14} /></a></li>
-            <li><a href="#" className="hover:text-brand-orange transition-colors">Publications</a></li>
+            <li><a href="https://arxiv.org/abs/2608.11739" target="_blank" rel="noreferrer" className="hover:text-brand-orange flex items-center gap-1 transition-colors">G0.5 Paper (arXiv) <ArrowUpRight size={14} /></a></li>
             <li><a href="#" className="hover:text-brand-orange transition-colors">Open Source</a></li>
             <li><a href="#" className="hover:text-brand-orange transition-colors">Simulations</a></li>
           </ul>

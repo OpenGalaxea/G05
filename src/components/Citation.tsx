@@ -7,10 +7,14 @@ export function Citation() {
   const [isCopied, setIsCopied] = useState(false);
 
   const bibtex = `@article{galaxea2026g05,
-  title={Galaxea G0.5 Technical Report},
+  title={Galaxea G0.5: One Autoregressive Stream for Robot Reasoning and Action},
   author={{Galaxea Team}},
+  journal={arXiv preprint arXiv:2608.11739},
   year={2026},
-  url={https://opengalaxea.github.io/G05/}
+  eprint={2608.11739},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2608.11739}
 }`;
 
   const handleCopy = () => {
@@ -46,7 +50,17 @@ export function Citation() {
               className="relative w-full max-w-2xl bg-[#111111] border border-white/10 rounded-2xl p-6 shadow-2xl"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-display font-medium text-white">Citation</h3>
+                <div className="flex items-baseline gap-3">
+                  <h3 className="text-xl font-display font-medium text-white m-0">Citation</h3>
+                  <a
+                    href="https://arxiv.org/abs/2608.11739"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[13px] font-mono text-brand-orange hover:text-brand-orange-light transition-colors"
+                  >
+                    arXiv:2608.11739
+                  </a>
+                </div>
                 <button 
                   onClick={() => setIsModalOpen(false)}
                   className="p-2 text-neutral-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
